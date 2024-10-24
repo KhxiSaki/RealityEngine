@@ -1,0 +1,3 @@
+[04:33:20] [LogCore] [info] Logger initialized.
+[04:33:20] [LogCore] [info] Direct3D device created successfully.
+[04:33:22] [LogCore] [info] Application exited.

@@ -8,6 +8,8 @@
 #include <tchar.h>
 #include <iostream> // For logging
 
+#include "CoreLog.h"
+
 #define MAX_LOADSTRING 100
 
 #pragma comment(lib, "d3d12.lib")
@@ -71,9 +73,13 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     LoadStringW(hInstance, IDC_REALITYENGINE, szWindowClass, MAX_LOADSTRING);
     MyRegisterClass(hInstance);
 
+    Logger::Init();
+    REALITY_LOG(LogCategory::LogCore, info, "Logger initialized.");
+    
     // Perform application initialization:
     if (!InitInstance(hInstance, nCmdShow))
     {
+        REALITY_LOG(LogCategory::LogCore, error, "Initialization failed.");
         return FALSE;
     }
 
@@ -82,11 +88,14 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     // Initialize Direct3D
     if (!CreateDeviceD3D(hwnd))
     {
+        REALITY_LOG(LogCategory::LogCore, error, "Failed to create Direct3D device.");
         CleanupDeviceD3D();
         ::UnregisterClassW(szWindowClass, hInstance);
         return 1;
     }
 
+    REALITY_LOG(LogCategory::LogCore, info, "Direct3D device created successfully.");
+    
     // Initialize ImGui context
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
@@ -128,13 +137,14 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
         ImGui::NewFrame();
 
         // Show the ImGui demo window (it can be removed later)
-        ImGui::ShowDemoWindow();
+        //ImGui::ShowDemoWindow();
 
         // Rendering
         ImGui::Render();
         FrameContext* frameCtx = WaitForNextFrameResources();
         if (frameCtx == nullptr) // Check if there's an issue with frame resources
         {
+            REALITY_LOG(LogCategory::LogCore, error, "Frame context is null.");
             done = true;
             continue;
         }
@@ -167,7 +177,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
         HRESULT hr = g_pSwapChain->Present(1, 0);
         if (FAILED(hr))
         {
-            std::cerr << "Present failed: " << std::hex << hr << std::endl;
+            REALITY_LOG(LogCategory::LogCore, error, "Present failed: {0:x}", hr);
             done = true;
             continue;
         }
@@ -176,7 +186,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
         hr = g_pd3dCommandQueue->Signal(g_fence, fenceValue);
         if (FAILED(hr))
         {
-            std::cerr << "Signal failed: " << std::hex << hr << std::endl;
+            REALITY_LOG(LogCategory::LogCore, error, "Signal failed: {0:x}", hr);
             done = true;
             continue;
         }
@@ -193,6 +203,8 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     CleanupDeviceD3D();
     ::DestroyWindow(hwnd);
     ::UnregisterClassW(szWindowClass, hInstance);
+
+    REALITY_LOG(LogCategory::LogCore, info, "Application exited.");
 
     return (int)msg.wParam;
 }
