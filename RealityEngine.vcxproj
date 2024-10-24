@@ -99,12 +99,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Engine\Source\CoreLog.h" />
     <ClInclude Include="Engine\Source\RealityEngine.h" />
     <ClInclude Include="Engine\Source\Resource.h" />
     <ClInclude Include="Engine\Source\framework.h" />
     <ClInclude Include="Engine\Source\targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Engine\Source\CoreLog.cpp" />
     <ClCompile Include="Engine\Source\RealityEngine.cpp" />
   </ItemGroup>
   <ItemGroup>
