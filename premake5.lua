@@ -7,7 +7,7 @@ project "RealityEngine"
     kind "WindowedApp"
     language "C++"
     targetdir "Engine/Binaries/%{cfg.buildcfg}"
-
+    objdir ("Engine/Intermediate/%{cfg.buildcfg}")
     files { 
         "Engine/Source/**.h", 
         "Engine/Source/**.cpp", 
@@ -37,6 +37,8 @@ project "RealityEngine"
 
     filter "system:windows"
         systemversion "latest"
+        cppdialect "C++20"
+        cdialect "C17"
         defines { "PLATFORM_WINDOWS" }
 
     filter "configurations:Debug"

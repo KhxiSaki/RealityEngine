@@ -43,14 +43,14 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
     <OutDir>Engine\Binaries\Debug\</OutDir>
-    <IntDir>obj\Debug\</IntDir>
+    <IntDir>Engine\Intermediate\Debug\</IntDir>
     <TargetName>RealityEngine</TargetName>
     <TargetExt>.exe</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
     <OutDir>Engine\Binaries\Release\</OutDir>
-    <IntDir>obj\Release\</IntDir>
+    <IntDir>Engine\Intermediate\Release\</IntDir>
     <TargetName>RealityEngine</TargetName>
     <TargetExt>.exe</TargetExt>
   </PropertyGroup>
@@ -62,6 +62,8 @@
       <AdditionalIncludeDirectories>Engine\Source;Engine\ThirdParty\spdlog\include;Engine\ThirdParty\imgui;Engine\ThirdParty\imgui\backends;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <LanguageStandard_C>stdc17</LanguageStandard_C>
       <ExternalWarningLevel>Level3</ExternalWarningLevel>
     </ClCompile>
     <ResourceCompile>
@@ -86,6 +88,8 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <MinimalRebuild>false</MinimalRebuild>
       <StringPooling>true</StringPooling>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <LanguageStandard_C>stdc17</LanguageStandard_C>
       <ExternalWarningLevel>Level3</ExternalWarningLevel>
     </ClCompile>
     <ResourceCompile>

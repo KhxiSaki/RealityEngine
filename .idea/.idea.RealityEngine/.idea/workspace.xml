@@ -9,17 +9,46 @@
   <component name="ChangeListManager">
     <list default="true" id="fe088325-a01e-4db4-b8d4-55481f415776" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.RealityEngine/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.RealityEngine/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.vs/RealityEngine/FileContentIndex/504a835a-8adc-4cfc-9c44-a8780aa31509.vsidx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.vs/RealityEngine/v17/.suo" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.vs/RealityEngine/v17/Browse.VC.db" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.vs/RealityEngine/v17/DocumentLayout.backup.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.vs/RealityEngine/v17/DocumentLayout.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.vs/RealityEngine/v17/Solution.VC.db" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.vs/RealityEngine/v17/ipch/AutoPCH/c9315316a3031b84/REALITYENGINE.ipch" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Engine/Binaries/Debug/RealityEngine.exe" beforeDir="false" afterPath="$PROJECT_DIR$/Engine/Binaries/Debug/RealityEngine.exe" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Engine/Binaries/Debug/RealityEngine.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/Engine/Binaries/Debug/RealityEngine.pdb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Engine/Source/RealityEngine.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Engine/Source/RealityEngine.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/obj/Debug/RealityEngine.ilk" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/RealityEngine.ilk" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/obj/Debug/RealityEngine.obj" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/RealityEngine.obj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/obj/Debug/RealityEngine.tlog/CL.command.1.tlog" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/RealityEngine.tlog/CL.command.1.tlog" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/obj/Debug/RealityEngine.tlog/CL.read.1.tlog" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/RealityEngine.tlog/CL.read.1.tlog" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/obj/Debug/RealityEngine.tlog/CL.write.1.tlog" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/RealityEngine.tlog/CL.write.1.tlog" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/obj/Debug/RealityEngine.tlog/link.read.1.tlog" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/RealityEngine.tlog/link.read.1.tlog" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/obj/Debug/vc143.idb" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/vc143.idb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/obj/Debug/vc143.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/vc143.pdb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RealityEngine.vcxproj" beforeDir="false" afterPath="$PROJECT_DIR$/RealityEngine.vcxproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RealityEngine.vcxproj.user" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/imgui.ini" beforeDir="false" afterPath="$PROJECT_DIR$/imgui.ini" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/obj/Debug/CoreLog.obj" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/obj/Debug/RealityEngine.exe.recipe" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/obj/Debug/RealityEngine.ilk" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/obj/Debug/RealityEngine.log" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/obj/Debug/RealityEngine.obj" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/obj/Debug/RealityEngine.res" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/obj/Debug/RealityEngine.tlog/CL.command.1.tlog" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/obj/Debug/RealityEngine.tlog/CL.read.1.tlog" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/obj/Debug/RealityEngine.tlog/CL.write.1.tlog" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/obj/Debug/RealityEngine.tlog/Cl.items.tlog" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/obj/Debug/RealityEngine.tlog/RealityEngine.lastbuildstate" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/obj/Debug/RealityEngine.tlog/link.command.1.tlog" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/obj/Debug/RealityEngine.tlog/link.read.1.tlog" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/obj/Debug/RealityEngine.tlog/link.secondary.1.tlog" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/obj/Debug/RealityEngine.tlog/link.write.1.tlog" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/obj/Debug/RealityEngine.tlog/rc.command.1.tlog" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/obj/Debug/RealityEngine.tlog/rc.read.1.tlog" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/obj/Debug/RealityEngine.tlog/rc.write.1.tlog" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/obj/Debug/imgui.obj" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/obj/Debug/imgui_demo.obj" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/obj/Debug/imgui_draw.obj" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/obj/Debug/imgui_impl_dx12.obj" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/obj/Debug/imgui_impl_win32.obj" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/obj/Debug/imgui_tables.obj" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/obj/Debug/imgui_widgets.obj" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/obj/Debug/vc143.idb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/obj/Debug/vc143.pdb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/premake5.lua" beforeDir="false" afterPath="$PROJECT_DIR$/premake5.lua" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -214,6 +243,8 @@
       <workItem from="1729792538297" duration="727000" />
       <workItem from="1729793460745" duration="14000" />
       <workItem from="1729793870546" duration="726000" />
+      <workItem from="1729794743312" duration="217000" />
+      <workItem from="1729794988970" duration="85000" />
     </task>
     <servers />
   </component>
