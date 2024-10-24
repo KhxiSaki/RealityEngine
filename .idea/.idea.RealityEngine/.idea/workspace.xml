@@ -8,27 +8,18 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fe088325-a01e-4db4-b8d4-55481f415776" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.RealityEngine/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.RealityEngine/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.RealityEngine/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.RealityEngine/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Engine/Binaries/Debug/RealityEngine.exe" beforeDir="false" afterPath="$PROJECT_DIR$/Engine/Binaries/Debug/RealityEngine.exe" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Engine/Binaries/Debug/RealityEngine.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/Engine/Binaries/Debug/RealityEngine.pdb" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Engine/Source/RealityEngine.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Engine/Source/RealityEngine.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RealityEngine.vcxproj" beforeDir="false" afterPath="$PROJECT_DIR$/RealityEngine.vcxproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/obj/Debug/CoreLog.obj" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/CoreLog.obj" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/obj/Debug/RealityEngine.ilk" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/RealityEngine.ilk" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/obj/Debug/RealityEngine.obj" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/RealityEngine.obj" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/obj/Debug/RealityEngine.tlog/CL.command.1.tlog" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/RealityEngine.tlog/CL.command.1.tlog" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/obj/Debug/RealityEngine.tlog/CL.read.1.tlog" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/RealityEngine.tlog/CL.read.1.tlog" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/obj/Debug/RealityEngine.tlog/CL.write.1.tlog" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/RealityEngine.tlog/CL.write.1.tlog" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/obj/Debug/RealityEngine.tlog/Cl.items.tlog" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/RealityEngine.tlog/Cl.items.tlog" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/obj/Debug/RealityEngine.tlog/link.command.1.tlog" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/RealityEngine.tlog/link.command.1.tlog" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/obj/Debug/RealityEngine.tlog/link.read.1.tlog" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/RealityEngine.tlog/link.read.1.tlog" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/obj/Debug/RealityEngine.tlog/link.secondary.1.tlog" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/RealityEngine.tlog/link.secondary.1.tlog" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/obj/Debug/RealityEngine.tlog/link.write.1.tlog" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/RealityEngine.tlog/link.write.1.tlog" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/obj/Debug/RealityEngine.tlog/rc.command.1.tlog" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/RealityEngine.tlog/rc.command.1.tlog" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/obj/Debug/vc143.idb" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/vc143.idb" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/obj/Debug/vc143.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/vc143.pdb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/premake5.lua" beforeDir="false" afterPath="$PROJECT_DIR$/premake5.lua" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -42,6 +33,20 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="HighlightingSettingsPerFile">
+    <setting file="mock:///AIAssistantSnippet." root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///AIAssistantSnippet." root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///AIAssistantSnippet." root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///AIAssistantSnippet." root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///AIAssistantSnippet." root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///AIAssistantSnippet." root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///AIAssistantSnippet." root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///AIAssistantSnippet." root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///AIAssistantSnippet." root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///AIAssistantSnippet." root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///AIAssistantSnippet." root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///AIAssistantSnippet." root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///AIAssistantSnippet." root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///AIAssistantSnippet." root0="SKIP_HIGHLIGHTING" />
     <setting file="mock:///AIAssistantSnippet." root0="SKIP_HIGHLIGHTING" />
     <setting file="mock:///AIAssistantSnippet." root0="SKIP_HIGHLIGHTING" />
     <setting file="mock:///AIAssistantSnippet." root0="SKIP_HIGHLIGHTING" />
@@ -207,6 +212,8 @@
       <workItem from="1729791903278" duration="225000" />
       <workItem from="1729792143401" duration="375000" />
       <workItem from="1729792538297" duration="727000" />
+      <workItem from="1729793460745" duration="14000" />
+      <workItem from="1729793870546" duration="726000" />
     </task>
     <servers />
   </component>
