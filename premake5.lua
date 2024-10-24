@@ -8,12 +8,32 @@ project "RealityEngine"
     language "C++"
     targetdir "Engine/Binaries/%{cfg.buildcfg}"
 
-    files { "Engine/Source/**.h", "Engine/Source/**.cpp", "Engine/Source/**.rc" }
+    files { 
+        "Engine/Source/**.h", 
+        "Engine/Source/**.cpp", 
+        "Engine/Source/**.rc",
+        "Engine/ThirdParty/imgui/*.h",
+        "Engine/ThirdParty/imgui/*.cpp",
+        "Engine/ThirdParty/imgui/backends/imgui_impl_win32.cpp", 
+        "Engine/ThirdParty/imgui/backends/imgui_impl_dx12.cpp" 
+    }
 
-    includedirs { "Engine/Source", "Engine/ThirdParty/spdlog/include", "Engine/ThirdParty/imgui" }
+    includedirs { 
+        "Engine/Source", 
+        "Engine/ThirdParty/spdlog/include", 
+        "Engine/ThirdParty/imgui", 
+        "Engine/ThirdParty/imgui/backends" 
+    }
 
-    -- Link with DirectX 12 libraries
-    links { "d3d12.lib", "dxgi.lib", "d3dcompiler.lib" }
+    libdirs { 
+        "$(DXSDK_DIR)Lib\\x64" 
+    }
+
+    links { 
+        "d3d12", 
+        "dxgi", 
+        "d3dcompiler" 
+    }
 
     filter "system:windows"
         systemversion "latest"

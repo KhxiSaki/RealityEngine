@@ -59,19 +59,20 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>PLATFORM_WINDOWS;DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>Engine\Source;Engine\ThirdParty\spdlog\include;Engine\ThirdParty\imgui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>Engine\Source;Engine\ThirdParty\spdlog\include;Engine\ThirdParty\imgui;Engine\ThirdParty\imgui\backends;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
       <ExternalWarningLevel>Level3</ExternalWarningLevel>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>PLATFORM_WINDOWS;DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>Engine\Source;Engine\ThirdParty\spdlog\include;Engine\ThirdParty\imgui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>Engine\Source;Engine\ThirdParty\spdlog\include;Engine\ThirdParty\imgui;Engine\ThirdParty\imgui\backends;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>d3d12.lib;dxgi.lib;d3dcompiler.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(DXSDK_DIR)Lib\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -79,7 +80,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>PLATFORM_WINDOWS;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>Engine\Source;Engine\ThirdParty\spdlog\include;Engine\ThirdParty\imgui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>Engine\Source;Engine\ThirdParty\spdlog\include;Engine\ThirdParty\imgui;Engine\ThirdParty\imgui\backends;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -89,13 +90,14 @@
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>PLATFORM_WINDOWS;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>Engine\Source;Engine\ThirdParty\spdlog\include;Engine\ThirdParty\imgui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>Engine\Source;Engine\ThirdParty\spdlog\include;Engine\ThirdParty\imgui;Engine\ThirdParty\imgui\backends;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalDependencies>d3d12.lib;dxgi.lib;d3dcompiler.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(DXSDK_DIR)Lib\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -104,10 +106,23 @@
     <ClInclude Include="Engine\Source\Resource.h" />
     <ClInclude Include="Engine\Source\framework.h" />
     <ClInclude Include="Engine\Source\targetver.h" />
+    <ClInclude Include="Engine\ThirdParty\imgui\imconfig.h" />
+    <ClInclude Include="Engine\ThirdParty\imgui\imgui.h" />
+    <ClInclude Include="Engine\ThirdParty\imgui\imgui_internal.h" />
+    <ClInclude Include="Engine\ThirdParty\imgui\imstb_rectpack.h" />
+    <ClInclude Include="Engine\ThirdParty\imgui\imstb_textedit.h" />
+    <ClInclude Include="Engine\ThirdParty\imgui\imstb_truetype.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\Source\CoreLog.cpp" />
     <ClCompile Include="Engine\Source\RealityEngine.cpp" />
+    <ClCompile Include="Engine\ThirdParty\imgui\backends\imgui_impl_dx12.cpp" />
+    <ClCompile Include="Engine\ThirdParty\imgui\backends\imgui_impl_win32.cpp" />
+    <ClCompile Include="Engine\ThirdParty\imgui\imgui.cpp" />
+    <ClCompile Include="Engine\ThirdParty\imgui\imgui_demo.cpp" />
+    <ClCompile Include="Engine\ThirdParty\imgui\imgui_draw.cpp" />
+    <ClCompile Include="Engine\ThirdParty\imgui\imgui_tables.cpp" />
+    <ClCompile Include="Engine\ThirdParty\imgui\imgui_widgets.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Engine\Source\RealityEngine.rc" />
