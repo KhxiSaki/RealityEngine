@@ -1,0 +1,15 @@
+[submodule "Engine/ThirdParty/flecs"]
+	path = Engine/ThirdParty/flecs
+	url = https://github.com/SanderMertens/flecs
+[submodule "Engine/ThirdParty/Physx"]
+	path = Engine/ThirdParty/Physx
+	url = https://github.com/NVIDIA-Omniverse/PhysX
+[submodule "Engine/ThirdParty/imgui"]
+	path = Engine/ThirdParty/imgui
+	url = https://github.com/ocornut/imgui
+[submodule "Engine/ThirdParty/imguizmo"]
+	path = Engine/ThirdParty/imguizmo
+	url = https://github.com/CedricGuillemet/ImGuizmo
+[submodule "Engine/ThirdParty/imguinodeeditor"]
+	path = Engine/ThirdParty/imguinodeeditor
+	url = https://github.com/thedmd/imgui-node-editor
