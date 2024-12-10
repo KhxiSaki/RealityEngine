@@ -9,7 +9,7 @@ from SetupPython import PythonConfiguration as PythonRequirements
 PythonRequirements.Validate()
 
 from SetupPremake import PremakeConfiguration as PremakeRequirements
-os.chdir('./../') # Change from devtools/scripts directory to root
+os.chdir('./') # Change from devtools/scripts directory to root
 
 premakeInstalled = PremakeRequirements.Validate()
 
@@ -19,9 +19,9 @@ subprocess.call(["git", "submodule", "update", "--init", "--recursive"])
 if (premakeInstalled):
     if platform.system() == "Windows":
         print("\nRunning premake...")
-        subprocess.call([os.path.abspath("/Engine/Build/scripts/Win-GenProjects.bat"), "nopause"])
+        subprocess.call([os.path.abspath("./scripts/Win-GenProjects.bat"), "nopause"])
 
     print("\nSetup completed!")
 else:
-    print("RealityEngine requires Premake to generate project files.")
+    print("Hazel requires Premake to generate project files.")
 
