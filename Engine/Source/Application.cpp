@@ -129,7 +129,7 @@ bool CreateDeviceD3D(HWND hWnd)
 #endif
 
     // Create device
-    D3D_FEATURE_LEVEL featureLevel = D3D_FEATURE_LEVEL_11_0;
+    D3D_FEATURE_LEVEL featureLevel = D3D_FEATURE_LEVEL_12_2;
     if (D3D12CreateDevice(nullptr, featureLevel, IID_PPV_ARGS(&g_pd3dDevice)) != S_OK)
         return false;
 
@@ -400,13 +400,19 @@ void Application::Run()
         if (show_demo_window)
             ImGui::ShowDemoWindow(&show_demo_window);
 
-        // 2. Show a simple window that we create ourselves. We use a Begin/End pair to create a named window.
-        {
-    
+        // Metrics Window
+        bool showMetricsWindow = true;
+        if (showMetricsWindow)
 
-            ImGui::Begin("Hello, world!");                          // Create a window called "Hello, world!" and append into it.
+        {
+            ImGui::Begin("DirectX 12 Metrics"); // Create a window called "DirectX 12 Metrics"
+
             ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / io.Framerate, io.Framerate);
+            ImGui::Text("%d vertices, %d indices (%d triangles)", io.MetricsRenderVertices, io.MetricsRenderIndices, io.MetricsRenderIndices / 3);
+
+
             ImGui::End();
+
         }
         // Rendering
         ImGui::Render();
