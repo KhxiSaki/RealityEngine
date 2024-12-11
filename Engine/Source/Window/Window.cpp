@@ -1,11 +1,13 @@
 #include "Window.h"
+#include <string>
 
 Window::Window(WNDCLASSEXW wc) : WindowWC(wc), WindowHWND(nullptr)
 {
     // Register the window class
-    if (!RegisterClassExW(&WindowWC))
-    {
-        throw std::runtime_error("Failed to register window class");
+    if (!RegisterClassExW(&WindowWC)) {
+
+        throw std::runtime_error("Failed to register window class: " + std::to_string(GetLastError()));
+
     }
 
     // Create the window
@@ -14,7 +16,7 @@ Window::Window(WNDCLASSEXW wc) : WindowWC(wc), WindowHWND(nullptr)
 
     if (WindowHWND == nullptr)
     {
-        throw std::runtime_error("Failed to create window");
+        throw std::runtime_error("Failed to create window:" + std::to_string(GetLastError()));
     }
 }
 
