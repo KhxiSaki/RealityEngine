@@ -29,14 +29,15 @@ project "RealityEngine"
 		        "Engine/ThirdParty/imgui/backends/imgui_impl_dx12.cpp",
 		        "Engine/ThirdParty/imgui/backends/imgui_impl_win32.h",
 		        "Engine/ThirdParty/imgui/backends/imgui_impl_win32.cpp",
-				"Engine/ThirdParty/flecs/include/flecs.h"
+				"Engine/ThirdParty/flecs/distr/flecs.h",
+				"Engine/ThirdParty/flecs/distr/flecs.c"
 	}
 	
 	includedirs
 	{
 		"Engine/ThirdParty/imgui",
 		"Engine/ThirdParty/imgui/backends",
-		"Engine/ThirdParty/flecs/include"
+		"Engine/ThirdParty/flecs/distr"
 	}
 
 	links 
