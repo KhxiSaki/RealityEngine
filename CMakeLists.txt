@@ -134,3 +134,11 @@ set_target_properties(EOC PROPERTIES
 
 # Optionally, you can add libraries or other dependencies for EOC here
 # target_link_libraries(EOC <library_name>)
+
+#------------------------------------------------------------------------------------------------------
+# Copy RealityEngine.dll to EOC binaries folder after building
+add_custom_command(TARGET EOC POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different
+    $<TARGET_FILE:RealityEngine>
+    "${CMAKE_BINARY_DIR}/EOC/Binaries/$<CONFIG>/RealityEngine.dll"
+)
