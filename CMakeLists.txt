@@ -69,7 +69,7 @@ endif()
 
 # Set subsystem to Console
 set_target_properties(RealityEngine PROPERTIES
-    LINK_FLAGS "/SUBSYSTEM:CONSOLE"
+    LINK_FLAGS "/SUBSYSTEM:WINDOWS"
 )
 
 # Set RealityEngine as the startup project for Visual Studio
