@@ -72,3 +72,12 @@ Plugins/**/Intermediate/*
 
 # Cache files for the editor to use
 DerivedDataCache/*
+
+# CMake files
+CMakeFiles/
+CMakeCache.txt
+*.cmake
+*.make
+*.ninja
+*.build
+CMakeLists.txt.user
