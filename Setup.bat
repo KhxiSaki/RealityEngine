@@ -36,6 +36,11 @@ IF %ERRORLEVEL% NEQ 0 (
     msiexec /i %CMAKE_INSTALLER% /quiet /norestart /log install.log
 
     REM Check the exit code of msiexec
+    set INSTALL_EXIT_CODE=%ERRORLEVEL%
+    echo Exit code from installation: %INSTALL_EXIT_CODE%
+
+    REM Verify if CMake is installed after the installation attempt
+    where cmake >nul 2>nul
     IF %ERRORLEVEL% NEQ 0 (
         echo Failed to install CMake. Please check install.log for details.
         del %CMAKE_INSTALLER% 2>nul
@@ -48,8 +53,5 @@ IF %ERRORLEVEL% NEQ 0 (
 ) ELSE (
     echo CMake is already installed. Proceeding to generate Visual Studio files...
 )
-
-REM Call the GenerateVisualStudioFiles.bat script
-call GenerateVisualStudioFiles.bat
-
+PAUSE
 ENDLOCAL
