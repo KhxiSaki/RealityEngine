@@ -9,7 +9,10 @@ Window::Window(HINSTANCE hInstance, const wchar_t* className, const wchar_t* win
 
 Window::~Window()
 {
-	// Cleanup if necessary
+	hInstance = nullptr;
+	className = nullptr;
+	windowTitle = nullptr;
+	hwnd = nullptr;
 }
 
 void Window::RegisterClass()
@@ -48,7 +51,7 @@ void Window::Create()
 
 void Window::Show(int nCmdShow)
 {
-	ShowWindow(hwnd, nCmdShow);
+	::ShowWindow(hwnd, nCmdShow);
 }
 
 void Window::Run()
