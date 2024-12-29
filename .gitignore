@@ -44,6 +44,19 @@
 # Ignore Visual Studio project files
 *.vcxproj
 *.vcxproj.filters
+*.vcxproj.user
+
+# Ignore debugging and build files
+*.pdb
+*.ilk
+*.log
+*.exe.recipe
+*.command.1.tlog
+*.tlog
+*.lastbuildstate
+*.log
+*.recipe
+*.lastbuildstate
 
 # Precompiled Assets
 SourceArt/**/*.png
