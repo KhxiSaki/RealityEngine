@@ -41,6 +41,10 @@
 *.VC.db
 *.VC.opendb
 
+# Ignore Visual Studio project files
+*.vcxproj
+*.vcxproj.filters
+
 # Precompiled Assets
 SourceArt/**/*.png
 SourceArt/**/*.tga
