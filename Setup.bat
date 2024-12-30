@@ -18,6 +18,10 @@ set IMGUI_URL=https://github.com/ocornut/imgui.git
 set IMGUI_BRANCH=docking
 set IMGUI_DIR=%~dp0Engine\ThirdParty\UI\imgui
 
+REM Define the URL for the CoreCLR
+set CORECLR_URL=https://github.com/dotnet/runtime.git
+set CORECLR_DIR=%~dp0Engine\ThirdParty\CoreCLR
+
 REM Check if CMake is installed
 where cmake >nul 2>nul
 IF %ERRORLEVEL% NEQ 0 (
@@ -57,7 +61,7 @@ if not exist "%IMGUI_DIR%" (
     REM Download ImGui docking branch using git if available, otherwise use PowerShell to clone
     if exist "%ProgramFiles%\Git\cmd\git.exe" (
         pushd "%IMGUI_DIR%"
-        "%ProgramFiles%\Git\cmd\git.exe" clone -b %IMGUI_BRANCH% %IMGUI_URL% .
+        "%ProgramFiles%\Git\cmd\git.exe" clone --recursive -b %IMGUI_BRANCH% %IMGUI_URL% .
         popd
     ) else (
         echo Git is not installed. Please install Git to download ImGui.
@@ -69,6 +73,30 @@ if not exist "%IMGUI_DIR%" (
 ) ELSE (
     echo ImGui is already downloaded. Proceeding...
 )
+
+REM Check if CoreCLR directory exists
+if not exist "%CORECLR_DIR%" (
+    echo CoreCLR not found. Downloading CoreCLR...
+
+    REM Create the directory for CoreCLR
+    mkdir "%CORECLR_DIR%"
+
+    REM Download CoreCLR using git if available, otherwise use PowerShell to clone
+    if exist "%ProgramFiles%\Git\cmd\git.exe" (
+        pushd "%CORECLR_DIR%"
+        "%ProgramFiles%\Git\cmd\git.exe" clone --recursive "%CORECLR_DIR%" .
+        popd
+    ) else (
+        echo Git is not installed. Please install Git to download CoreCLR.
+        pause
+        exit /b 1
+    )
+
+    echo CoreCLR has been downloaded successfully.
+) ELSE (
+    echo CoreCLR is already downloaded. Proceeding...
+)
+
 
 PAUSE
 ENDLOCAL
