@@ -22,6 +22,19 @@ REM Define the URL for the CoreCLR
 set CORECLR_URL=https://github.com/dotnet/runtime
 set CORECLR_DIR=%~dp0Engine\ThirdParty\CoreCLR
 
+REM Define the URL for the PhysX
+set PHYSX_URL=https://github.com/NVIDIA-Omniverse/PhysX.git
+set PHYSX_DIR=%~dp0Engine\ThirdParty\NVIDIA\PhysX
+
+REM Define the URL for the PhysX
+set FLECS_URL=https://github.com/SanderMertens/flecs.git
+set FLECS_DIR=%~dp0Engine\ThirdParty\Flecs
+
+REM Define the URL for the spdlog v2.x branch
+set SPDLOG_URL=https://github.com/gabime/spdlog.git
+set SPDLOG_BRANCH=v2.x
+set SPDLOG_DIR=%~dp0Engine\ThirdParty\spdlog
+
 REM Check if CMake is installed
 where cmake >nul 2>nul
 IF %ERRORLEVEL% NEQ 0 (
@@ -97,6 +110,74 @@ if not exist "%CORECLR_DIR%" (
     echo CoreCLR is already downloaded. Proceeding...
 )
 
+REM Check if PhysX directory exists
+if not exist "%PHYSX_DIR%" (
+    echo PhysX not found. Downloading PhysX...
+
+    REM Create the directory for PhysX
+    mkdir "%PHYSX_DIR%"
+
+    REM Download PhysX using git if available, otherwise use PowerShell to clone
+    if exist "%ProgramFiles%\Git\cmd\git.exe" (
+        pushd "%PHYSX_DIR%"
+        "%ProgramFiles%\Git\cmd\git.exe" clone --recursive "%PHYSX_URL%" .
+        popd
+    ) else (
+        echo Git is not installed. Please install Git to download PhysX.
+        pause
+        exit /b 1
+    )
+
+    echo PhysX has been downloaded successfully.
+) ELSE (
+    echo PhysX is already downloaded. Proceeding...
+)
+
+REM Check if Flecs directory exists
+if not exist "%FLECS_DIR%" (
+    echo Flecs not found. Downloading Flecs...
+
+    REM Create the directory for Flecs
+    mkdir "%FLECS_DIR%"
+
+    REM Download Flecs using git if available, otherwise use PowerShell to clone
+    if exist "%ProgramFiles%\Git\cmd\git.exe" (
+        pushd "%FLECS_DIR%"
+        "%ProgramFiles%\Git\cmd\git.exe" clone --recursive "%FLECS_URL%" .
+        popd
+    ) else (
+        echo Git is not installed. Please install Git to download Flecs.
+        pause
+        exit /b 1
+    )
+
+    echo Flecs has been downloaded successfully.
+) ELSE (
+    echo Flecs is already downloaded. Proceeding...
+)
+
+REM Check if spdlog directory exists
+if not exist "%SPDLOG_DIR%" (
+    echo spdlog not found. Downloading spdlog...
+
+    REM Create the directory for spdlog
+    mkdir "%SPDLOG_DIR%"
+
+    REM Download spdlog v2.x branch using git if available, otherwise use PowerShell to clone
+    if exist "%ProgramFiles%\Git\cmd\git.exe" (
+        pushd "%SPDLOG_DIR%"
+        "%ProgramFiles%\Git\cmd\git.exe" clone --recursive -b %SPDLOG_BRANCH% %SPDLOG_URL% .
+        popd
+    ) else (
+        echo Git is not installed. Please install Git to download spdlog.
+        pause
+        exit /b 1
+    )
+
+    echo spdlog v2.x branch has been downloaded successfully.
+) ELSE (
+    echo spdlog is already downloaded. Proceeding...
+)
 
 PAUSE
 ENDLOCAL
