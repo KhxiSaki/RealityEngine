@@ -14,12 +14,27 @@ set(CMAKE_C_STANDARD_REQUIRED True)
 set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS 1)
 
 # Specify the source files
-# Organize your source files and header files into directories
 file(GLOB_RECURSE CPP_SOURCE_FILES "Engine/Source/*.cpp")  # All .cpp files in src directory
 file(GLOB_RECURSE HEADER_FILES "Engine/Source/*.h")        # All .h files in include directory
 
+# ImGui source files
+set(IMGUI_SOURCE_FILES
+    Engine/ThirdParty/UI/imgui/imgui.cpp
+    Engine/ThirdParty/UI/imgui/imgui_draw.cpp
+    Engine/ThirdParty/UI/imgui/imgui_widgets.cpp
+    Engine/ThirdParty/UI/imgui/imgui_tables.cpp
+    Engine/ThirdParty/UI/imgui/imgui_demo.cpp
+    Engine/ThirdParty/UI/imgui/imgui_internal.h
+    Engine/ThirdParty/UI/imgui/imconfig.h
+    Engine/ThirdParty/UI/imgui/imgui.h
+    Engine/ThirdParty/UI/imgui/backends/imgui_impl_dx12.cpp
+    Engine/ThirdParty/UI/imgui/backends/imgui_impl_dx12.h
+    Engine/ThirdParty/UI/imgui/backends/imgui_impl_win32.cpp
+    Engine/ThirdParty/UI/imgui/backends/imgui_impl_win32.h
+)
+
 # Create the executable
-add_executable(RealityEngine ${CPP_SOURCE_FILES} ${HEADER_FILES})
+add_executable(RealityEngine ${CPP_SOURCE_FILES} ${HEADER_FILES} ${IMGUI_SOURCE_FILES})
 
 # Set the C standard for the target
 set_target_properties(RealityEngine PROPERTIES
@@ -29,6 +44,9 @@ set_target_properties(RealityEngine PROPERTIES
 
 # Include directories
 include_directories(include)  # Assuming you have an 'include' directory for headers
+include_directories(Engine/ThirdParty/UI/imgui)  # Include ImGui headers
+
+target_link_libraries(RealityEngine d3d12 dxgi d3dcompiler)
 
 # Set output directories for different configurations
 set_target_properties(RealityEngine PROPERTIES

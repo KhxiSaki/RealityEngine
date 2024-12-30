@@ -13,6 +13,11 @@ REM Define the URL for the CMake installer
 set CMAKE_URL=https://github.com/Kitware/CMake/releases/download/v3.31.3/cmake-3.31.3-windows-x86_64.msi
 set CMAKE_INSTALLER=cmake_installer.msi
 
+REM Define the URL for the ImGui docking branch
+set IMGUI_URL=https://github.com/ocornut/imgui.git
+set IMGUI_BRANCH=docking
+set IMGUI_DIR=%~dp0Engine\ThirdParty\UI\imgui
+
 REM Check if CMake is installed
 where cmake >nul 2>nul
 IF %ERRORLEVEL% NEQ 0 (
@@ -40,6 +45,29 @@ IF %ERRORLEVEL% NEQ 0 (
     del %CMAKE_INSTALLER% 2>nul
 ) ELSE (
     echo CMake is already installed. Proceeding to generate Visual Studio files...
+)
+
+REM Check if ImGui directory exists
+if not exist "%IMGUI_DIR%" (
+    echo ImGui not found. Downloading ImGui...
+
+    REM Create the directory for ImGui
+    mkdir "%IMGUI_DIR%"
+
+    REM Download ImGui docking branch using git if available, otherwise use PowerShell to clone
+    if exist "%ProgramFiles%\Git\cmd\git.exe" (
+        pushd "%IMGUI_DIR%"
+        "%ProgramFiles%\Git\cmd\git.exe" clone -b %IMGUI_BRANCH% %IMGUI_URL% .
+        popd
+    ) else (
+        echo Git is not installed. Please install Git to download ImGui.
+        pause
+        exit /b 1
+    )
+
+    echo ImGui docking branch has been downloaded successfully.
+) ELSE (
+    echo ImGui is already downloaded. Proceeding...
 )
 
 PAUSE
