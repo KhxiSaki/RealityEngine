@@ -19,7 +19,7 @@ set IMGUI_BRANCH=docking
 set IMGUI_DIR=%~dp0Engine\ThirdParty\UI\imgui
 
 REM Define the URL for the CoreCLR
-set CORECLR_URL=https://github.com/dotnet/runtime.git
+set CORECLR_URL=https://github.com/dotnet/runtime
 set CORECLR_DIR=%~dp0Engine\ThirdParty\CoreCLR
 
 REM Check if CMake is installed
@@ -84,7 +84,7 @@ if not exist "%CORECLR_DIR%" (
     REM Download CoreCLR using git if available, otherwise use PowerShell to clone
     if exist "%ProgramFiles%\Git\cmd\git.exe" (
         pushd "%CORECLR_DIR%"
-        "%ProgramFiles%\Git\cmd\git.exe" clone --recursive "%CORECLR_DIR%" .
+        "%ProgramFiles%\Git\cmd\git.exe" clone --recursive "%CORECLR_URL%" .
         popd
     ) else (
         echo Git is not installed. Please install Git to download CoreCLR.
