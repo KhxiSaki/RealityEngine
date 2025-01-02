@@ -9,9 +9,11 @@ int main(int args, char* argv[])
     desc.cx = 1024;
     desc.cy = 780;
     desc.title = "reality engine";
-    real::window* window = new real::window(&desc);
+    real::window window(&desc);
 
 
-    
-    return 0;
+    auto res = window.exec(nullptr);
+
+
+    return res;
 }
