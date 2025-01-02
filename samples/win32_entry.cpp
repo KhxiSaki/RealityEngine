@@ -1,8 +1,6 @@
 #include <iostream>
 #include <engine/window/window.h>
 
-
-
 int main(int args, char* argv[])
 {
     real::window_desc desc{};
