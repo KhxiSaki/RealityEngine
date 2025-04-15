@@ -1,5 +1,5 @@
 project "RealityEngine"
-	kind "StaticLib"
+	kind "ConsoleApp"
 	language "C++"
 	cppdialect "C++23"
 	staticruntime "off"
@@ -10,17 +10,24 @@ project "RealityEngine"
 files
 	{
 		"Source/**.h",
-		"Source/**.cpp"
+		"Source/**.cpp",
+		"%{IncludeDir.ImGui}",
+		"%{IncludeDir.ImGui}/backends"
 	}
 	
-	includedirs
-	{
-		"Source"
-	}
+includedirs
+{
+    "Source",
+    -- Use forward slashes for better compatibility
+    "%{wks.location}/Engine/ThirdParty/ImGui",
+    "%{wks.location}/Engine/ThirdParty/ImGui/backends",
+    "%{IncludeDir.VulkanSDK}"
+}
 	
 	links
 	{
-	
+		"ImGui",
+        "vulkan-1"
 	}
 	
 	filter "system:windows"
@@ -34,6 +41,13 @@ files
 		{
 		
 		}
+		
+		 -- Add Vulkan library directory
+    filter {"system:windows", "configurations:*"}
+        libdirs 
+        {
+            "%{VulkanSDK.LibraryDir}"
+        }
 
 	filter "configurations:Debug"
 		runtime "Debug"
