@@ -22,3 +22,7 @@ group ""
 group "Games"
 include "EOC"
 group ""
+
+group "ThirdParty"
+include "Engine/ThirdParty"
+group ""
