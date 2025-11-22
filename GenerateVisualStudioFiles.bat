@@ -1,5 +1,7 @@
 @echo off
 pushd %~dp0
-call Engine\Binaries\Premake\premake5.exe vs2022
+
+python Engine/Build/GenerateProjectFiles.py %*
+
 popd
-PAUSE
+if "%1" neq "nopause" pause
