@@ -79,7 +79,7 @@ void Engine::PreInitialization()
 	window = glfwCreateWindow(mode->width,
 		mode->height,
 		"RealityEngine",
-		primary_monitor,
+		nullptr,
 		nullptr);
 	if (!window)
 	{

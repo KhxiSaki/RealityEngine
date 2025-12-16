@@ -50,14 +50,12 @@ bool ImGuiLayer::Initialize(GLFWwindow* window, VulkanContext* context)
     init_info.Queue = context->GetGraphicsQueue();
     init_info.PipelineCache = VK_NULL_HANDLE;
     init_info.DescriptorPool = descriptorPool;
-    init_info.Subpass = 0;
     init_info.MinImageCount = 2;
     init_info.ImageCount = static_cast<uint32_t>(context->GetSwapChainImageViews().size());
-    init_info.MSAASamples = VK_SAMPLE_COUNT_1_BIT;
     init_info.Allocator = nullptr;
     init_info.CheckVkResultFn = nullptr;
 
-    ImGui_ImplVulkan_Init(&init_info, context->GetRenderPass());
+    ImGui_ImplVulkan_Init(&init_info);
 
     // Upload Fonts
     VkCommandBuffer command_buffer;
@@ -74,7 +72,7 @@ bool ImGuiLayer::Initialize(GLFWwindow* window, VulkanContext* context)
     begin_info.flags = VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT;
 
     vkBeginCommandBuffer(command_buffer, &begin_info);
-    ImGui_ImplVulkan_CreateFontsTexture(command_buffer);
+    //ImGui_ImplVulkan_CreateFontsTexture(command_buffer);
     vkEndCommandBuffer(command_buffer);
 
     VkSubmitInfo submit_info = {};
@@ -86,7 +84,7 @@ bool ImGuiLayer::Initialize(GLFWwindow* window, VulkanContext* context)
     vkQueueWaitIdle(context->GetGraphicsQueue());
 
     vkFreeCommandBuffers(context->GetDevice(), context->GetCommandPool(), 1, &command_buffer);
-    ImGui_ImplVulkan_DestroyFontUploadObjects();
+    //ImGui_ImplVulkan_DestroyFontUploadObjects();
 
     initialized = true;
     std::cout << "ImGui initialized successfully!" << std::endl;

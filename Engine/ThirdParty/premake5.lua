@@ -17,11 +17,19 @@ project "ImGui"
 		"imgui-docking/imstb_textedit.h",
 		"imgui-docking/imstb_truetype.h",
 		"imgui-docking/imgui_demo.cpp",
-		"imgui-docking/imgui_tables.cpp",
-"imgui-docking/backends/imgui_impl_glfw.h",
-		"imgui-docking/backends/imgui_impl_glfw.cpp",
-		"imgui-docking/backends/imgui_impl_vulkan.h",
-		"imgui-docking/backends/imgui_impl_vulkan.cpp"
+		"imgui-docking/imgui_tables.cpp"
+	}
+
+	includedirs
+	{
+		"imgui-docking",
+		"%{IncludeDir.GLFW}/include",
+		"%{IncludeDir.VulkanSDK}"
+	}
+
+	defines
+	{
+		"IMGUI_IMPL_VULKAN_USE_VOLK=0"
 	}
 
 	filter "system:windows"
