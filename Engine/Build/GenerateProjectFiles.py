@@ -6,7 +6,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 def main():
     from Core import Logger
-    from Modules import PremakeSetup
+    from Modules import SetupPremake
     import BuildConfig as Config
     from pathlib import Path
     

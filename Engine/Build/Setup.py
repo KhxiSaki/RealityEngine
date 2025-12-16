@@ -44,7 +44,7 @@ def main():
     if premake_ok:
         Logger.subheader("Project Generation")
         Logger.info("Generating Visual Studio solution...")
-        premake_exe = PremakeSetup.get_executable()
+        premake_exe = SetupPremake.get_executable()
         subprocess.run([premake_exe, "vs2022"])
         Logger.success("Project files generated!")
     

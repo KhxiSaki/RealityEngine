@@ -16,7 +16,7 @@ workspace "RealityEngine"
 outputdir = "%{cfg.buildcfg}/%{cfg.system}/%{cfg.architecture}"
 
 IncludeDir = {}
-IncludeDir["ImGui"] = "Engine/ThirdParty/ImGui"
+IncludeDir["ImGui"] = "/Engine/ThirdParty/ImGui"
 IncludeDir["VulkanSDK"] = os.getenv("VULKAN_SDK") .. "/Include"
 
 VulkanSDK = {}
@@ -32,5 +32,5 @@ include "Engine"
 group ""
 
 group "ThirdParty"
-include "Engine/ThirdParty"
+--include "Engine/ThirdParty"
 group ""
