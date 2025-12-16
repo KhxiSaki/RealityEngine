@@ -37,6 +37,7 @@ Makefile
 # -----------------------------------------------------------------------------
 Engine/ThirdParty/ImGui/
 Engine/ThirdParty/spdlog-1.16.0/
+Engine/ThirdParty/glfw-3.4/
 Engine/ThirdParty/glm-1.0.2/
 Engine/ThirdParty/SDK/
 Engine/Binaries/Premake/

@@ -51,5 +51,12 @@ DEPENDENCIES: list[Dependency] = [
         url="https://github.com/gabime/spdlog/archive/refs/tags/v1.16.0.zip",
         install_path=f"{THIRD_PARTY_DIR}/spdlog",
         extracted_folder="spdlog"
+    ),
+  Dependency(
+        name="glfw",
+        version="3.4.0",
+        url="https://github.com/glfw/glfw/releases/download/3.4/glfw-3.4.zip",
+        install_path=f"{THIRD_PARTY_DIR}/glfw",
+        extracted_folder="glfw"
     )
 ]

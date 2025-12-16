@@ -132,3 +132,77 @@ project "NVRHI"
 	filter "configurations:Release"
 		runtime "Release"
 		optimize "on"
+project "GLFW"
+	kind "StaticLib"
+	language "C"
+
+	targetdir ("glfw-3.4/Binaries/" .. outputdir .. "/%{prj.name}")
+	objdir ("glfw-3.4/Intermediate/" .. outputdir .. "/%{prj.name}")
+
+	files
+	{
+		"glfw-3.4/include/GLFW/glfw3.h",
+		"glfw-3.4/include/GLFW/glfw3native.h",
+		"glfw-3.4/src/glfw_config.h",
+		"glfw-3.4/src/context.c",
+		"glfw-3.4/src/init.c",
+		"glfw-3.4/src/input.c",
+		"glfw-3.4/src/monitor.c",
+		"glfw-3.4/src/vulkan.c",
+		"glfw-3.4/src/window.c"
+	}
+	filter "system:linux"
+		pic "On"
+
+		systemversion "latest"
+		staticruntime "On"
+
+		files
+		{
+			"glfw-3.4/src/x11_init.c",
+			"glfw-3.4/src/x11_monitor.c",
+			"glfw-3.4/src/x11_window.c",
+			"glfw-3.4/src/xkb_unicode.c",
+			"glfw-3.4/src/posix_time.c",
+			"glfw-3.4/src/posix_thread.c",
+			"glfw-3.4/src/glx_context.c",
+			"glfw-3.4/src/egl_context.c",
+			"glfw-3.4/src/osmesa_context.c",
+			"glfw-3.4/src/linux_joystick.c"
+		}
+
+		defines
+		{
+			"_GLFW_X11"
+		}
+
+	filter "system:windows"
+		systemversion "latest"
+		staticruntime "On"
+
+		files
+		{
+			"glfw-3.4/src/win32_init.c",
+			"glfw-3.4/src/win32_joystick.c",
+			"glfw-3.4/src/win32_monitor.c",
+			"glfw-3.4/src/win32_time.c",
+			"glfw-3.4/src/win32_thread.c",
+			"glfw-3.4/src/win32_window.c",
+			"glfw-3.4/src/wgl_context.c",
+			"glfw-3.4/src/egl_context.c",
+			"glfw-3.4/src/osmesa_context.c"
+		}
+
+		defines 
+		{ 
+			"_GLFW_WIN32",
+			"_CRT_SECURE_NO_WARNINGS"
+		}
+
+	filter "configurations:Debug"
+		runtime "Debug"
+		symbols "on"
+
+	filter "configurations:Release"
+		runtime "Release"
+		optimize "on"

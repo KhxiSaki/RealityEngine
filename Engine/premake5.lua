@@ -14,13 +14,19 @@ files
 		"%{IncludeDir.ImGui}",
 		"%{IncludeDir.ImGui}/backends",
 		"%{IncludeDir.GLM}",
-"%{IncludeDir.NVRHI}"
+"%{IncludeDir.NVRHI}",
+"%{IncludeDir.GLFW}/include",
+"%{IncludeDir.GLFW}/src",
+"%{IncludeDir.GLFW}",
+
 	}
 	
 includedirs
 {
     "Source",
-    -- Use forward slashes for better compatibility
+"%{IncludeDir.GLFW}",
+"%{IncludeDir.GLFW}/include",
+"%{IncludeDir.GLFW}/src",
     "%{wks.location}/Engine/ThirdParty/ImGui",
     "%{wks.location}/Engine/ThirdParty/ImGui/backends",
     "%{IncludeDir.VulkanSDK}",
@@ -34,7 +40,8 @@ includedirs
 	links
 	{
 		"ImGui",
-        "vulkan-1"
+        "vulkan-1",
+"GLFW",
 	}
 	
 	filter "system:windows"
