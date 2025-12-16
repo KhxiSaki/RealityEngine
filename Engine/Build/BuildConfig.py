@@ -37,13 +37,19 @@ DEPENDENCIES: list[Dependency] = [
         url="https://github.com/ocornut/imgui/archive/refs/tags/v1.92.5.zip",
         install_path=f"{THIRD_PARTY_DIR}/ImGui",
         extracted_folder="imgui-1.92.5"
+    ), 
+    Dependency(
+        name="GLM",
+        version="1.0.2",
+        url="https://github.com/g-truc/glm/archive/refs/tags/1.0.2.zip",
+        install_path=f"{THIRD_PARTY_DIR}/GLM",
+        extracted_folder="GLM"
     ),
-    # Add more dependencies here:
-    # Dependency(
-    #     name="spdlog",
-    #     version="1.15.0",
-    #     url="https://github.com/gabime/spdlog/archive/refs/tags/v1.15.0.zip",
-    #     install_path=f"{THIRD_PARTY_DIR}/spdlog",
-    #     extracted_folder="spdlog-1.15.0"
-    # ),
+  Dependency(
+        name="spdlog",
+        version="1.16.0",
+        url="https://github.com/gabime/spdlog/archive/refs/tags/v1.16.0.zip",
+        install_path=f"{THIRD_PARTY_DIR}/spdlog",
+        extracted_folder="spdlog"
+    )
 ]

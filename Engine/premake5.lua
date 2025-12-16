@@ -12,7 +12,8 @@ files
 		"Source/**.h",
 		"Source/**.cpp",
 		"%{IncludeDir.ImGui}",
-		"%{IncludeDir.ImGui}/backends"
+		"%{IncludeDir.ImGui}/backends",
+		"%{IncludeDir.GLM}"
 	}
 	
 includedirs
@@ -21,8 +22,12 @@ includedirs
     -- Use forward slashes for better compatibility
     "%{wks.location}/Engine/ThirdParty/ImGui",
     "%{wks.location}/Engine/ThirdParty/ImGui/backends",
-    "%{IncludeDir.VulkanSDK}"
+    "%{IncludeDir.VulkanSDK}",
+	"%{IncludeDir.GLM}",
+	"%{IncludeDir.spdlog}",
+"%{IncludeDir.spdlog}/include"
 }
+
 	
 	links
 	{

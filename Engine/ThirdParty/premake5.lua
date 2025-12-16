@@ -21,13 +21,76 @@ project "ImGui"
 
 	filter "system:windows"
 		systemversion "latest"
-		cppdialect "C++17"
+		cppdialect "C++23"
 		staticruntime "On"
 
 	filter "system:linux"
 		pic "On"
 		systemversion "latest"
-		cppdialect "C++17"
+		cppdialect "C++23"
+		staticruntime "On"
+
+	filter "configurations:Debug"
+		runtime "Debug"
+		symbols "on"
+
+	filter "configurations:Release"
+		runtime "Release"
+		optimize "on"
+
+project "GLM"
+	kind "StaticLib"
+	language "C++"
+
+	targetdir ("glm-1.0.2/Binaries/" .. outputdir .. "/%{prj.name}")
+	objdir ("glm-1.0.2/Intermediate/" .. outputdir .. "/%{prj.name}")
+
+	files
+	{
+	"glm-1.0.2/glm/**.hpp",
+		"glm-1.0.2/glm/**.inl",
+	}
+
+	filter "system:windows"
+		systemversion "latest"
+		cppdialect "C++23"
+		staticruntime "On"
+
+	filter "system:linux"
+		pic "On"
+		systemversion "latest"
+		cppdialect "C++23"
+		staticruntime "On"
+
+	filter "configurations:Debug"
+		runtime "Debug"
+		symbols "on"
+
+	filter "configurations:Release"
+		runtime "Release"
+		optimize "on"
+
+project "spdlog"
+	kind "StaticLib"
+	language "C++"
+
+	targetdir ("spdlog-1.16.0/Binaries/" .. outputdir .. "/%{prj.name}")
+	objdir ("spdlog-1.16.0/Intermediate/" .. outputdir .. "/%{prj.name}")
+
+	files
+	{
+	"spdlog/include"
+	}
+
+	filter "system:windows"
+		systemversion "latest"
+		cppdialect "C++23"
+		staticruntime "On"
+
+	filter "system:linux"
+		pic "On"
+		systemversion "latest"
+		cppdialect "C++23"
 		staticruntime "On"
 
 	filter "configurations:Debug"
