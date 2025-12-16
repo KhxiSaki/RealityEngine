@@ -43,18 +43,21 @@ bool ImGuiLayer::Initialize(GLFWwindow* window, VulkanContext* context)
     // Setup Platform/Renderer backends
     ImGui_ImplGlfw_InitForVulkan(window, true);
     ImGui_ImplVulkan_InitInfo init_info = {};
+    //init_info.ApiVersion = VK_API_VERSION_1_3;              // Pass in your value of VkApplicationInfo::apiVersion, otherwise will default to header version.
     init_info.Instance = context->GetInstance();
     init_info.PhysicalDevice = context->GetPhysicalDevice();
     init_info.Device = context->GetDevice();
-    init_info.QueueFamily = 0; // We'll need to get the proper queue family
+    init_info.QueueFamily = 0;
     init_info.Queue = context->GetGraphicsQueue();
     init_info.PipelineCache = VK_NULL_HANDLE;
     init_info.DescriptorPool = descriptorPool;
     init_info.MinImageCount = 2;
     init_info.ImageCount = static_cast<uint32_t>(context->GetSwapChainImageViews().size());
     init_info.Allocator = nullptr;
+    init_info.PipelineInfoMain.RenderPass = context->GetRenderPass();
+    init_info.PipelineInfoMain.Subpass = 0;
+    init_info.PipelineInfoMain.MSAASamples = VK_SAMPLE_COUNT_1_BIT;
     init_info.CheckVkResultFn = nullptr;
-
     ImGui_ImplVulkan_Init(&init_info);
 
     // Upload Fonts

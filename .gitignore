@@ -41,6 +41,7 @@ Engine/ThirdParty/glfw-3.4/
 Engine/ThirdParty/glm-1.0.2/
 Engine/ThirdParty/SDK/
 Engine/Binaries/Premake/
+*imgui.ini
 
 # -----------------------------------------------------------------------------
 # Vulkan SDK Installer (if downloaded locally)
