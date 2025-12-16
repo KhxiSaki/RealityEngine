@@ -40,7 +40,11 @@ def main():
     else:
         Logger.warning("Failed to update submodules (is this a git repo?)")
     
-    # Step 6: Generate project files
+    # Step 6: Compile Shaders
+    from Modules import SetupShaders
+    SetupShaders.validate()
+    
+    # Step 7: Generate project files
     if premake_ok:
         Logger.subheader("Project Generation")
         Logger.info("Generating Visual Studio solution...")

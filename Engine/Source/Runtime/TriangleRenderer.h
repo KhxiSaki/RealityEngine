@@ -4,6 +4,7 @@
 #include <glm/glm.hpp>
 #include <vector>
 #include <array>
+#include <string>
 
 // Forward declarations
 class ImGuiLayer;
@@ -53,11 +54,11 @@ public:
     void Cleanup();
     void DrawFrame();
     void SetImGuiLayer(ImGuiLayer* layer) { imguiLayer = layer; }
-    void SetViewportRenderer(ViewportRenderer* renderer);  // Implemented in .cpp
+    void SetViewportRenderer(ViewportRenderer* renderer);
 
 private:
     void CreateGraphicsPipeline();
-    void CreateViewportPipeline();  // NEW: Separate pipeline for viewport
+    void CreateViewportPipeline();
     void CreateVertexBuffer();
     void CreateCommandBuffers();
     void CreateSyncObjects();
@@ -65,6 +66,7 @@ private:
     void RecordViewportRender(VkCommandBuffer commandBuffer);
 
     VkShaderModule CreateShaderModule(const std::vector<char>& code);
+    std::vector<char> ReadShaderFile(const std::string& filename); // NEW
     uint32_t FindMemoryType(uint32_t typeFilter, VkMemoryPropertyFlags properties);
 
     VulkanContext* vulkanContext;
@@ -72,8 +74,8 @@ private:
     ViewportRenderer* viewportRenderer = nullptr;
 
     VkPipelineLayout pipelineLayout = VK_NULL_HANDLE;
-    VkPipeline graphicsPipeline = VK_NULL_HANDLE;      // For swap chain
-    VkPipeline viewportPipeline = VK_NULL_HANDLE;      // For viewport
+    VkPipeline graphicsPipeline = VK_NULL_HANDLE;
+    VkPipeline viewportPipeline = VK_NULL_HANDLE;
 
     VkBuffer vertexBuffer = VK_NULL_HANDLE;
     VkDeviceMemory vertexBufferMemory = VK_NULL_HANDLE;
@@ -83,7 +85,7 @@ private:
     std::vector<VkSemaphore> imageAvailableSemaphores;
     std::vector<VkSemaphore> renderFinishedSemaphores;
     std::vector<VkFence> inFlightFences;
-    std::vector<VkFence> imagesInFlight;  // NEW: Track which fence is using each swapchain image
+    std::vector<VkFence> imagesInFlight;
     uint32_t currentFrame = 0;
 
     const int MAX_FRAMES_IN_FLIGHT = 2;
