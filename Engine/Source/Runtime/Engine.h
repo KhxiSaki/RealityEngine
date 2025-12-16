@@ -6,6 +6,8 @@
 // Forward declarations
 class VulkanContext;
 class TriangleRenderer;
+class ImGuiLayer;
+class EditorUI;
 
 class Engine
 {
@@ -32,5 +34,7 @@ private:
 	GLFWwindow* window = nullptr;
 	VulkanContext* vulkanContext = nullptr;
 	TriangleRenderer* triangleRenderer = nullptr;
+	ImGuiLayer* imguiLayer = nullptr;
+	EditorUI* editorUI = nullptr;
 	bool bInitialized = false;
 };

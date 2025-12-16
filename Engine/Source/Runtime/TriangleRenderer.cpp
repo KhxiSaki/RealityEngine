@@ -2,6 +2,7 @@
 #include <iostream>
 #include <stdexcept>
 #include <cstring>
+#include "ImGuiLayer.h"
 
 // Vertex Shader SPIR-V - Manually corrected to fix duplicate ID issue
 static const uint32_t vertShaderCode[] = {
@@ -145,6 +146,7 @@ void TriangleRenderer::CreateGraphicsPipeline()
     std::vector<char> fragShaderBytes(sizeof(fragShaderCode));
     std::memcpy(fragShaderBytes.data(), fragShaderCode, sizeof(fragShaderCode));
 
+    //TODO: Use shader and not bytecode. Use vulkan tutorial method
     VkShaderModule vertShaderModule = CreateShaderModule(vertShaderBytes);
     VkShaderModule fragShaderModule = CreateShaderModule(fragShaderBytes);
 
@@ -369,6 +371,11 @@ void TriangleRenderer::RecordCommandBuffer(VkCommandBuffer commandBuffer, uint32
     vkCmdBindVertexBuffers(commandBuffer, 0, 1, vertexBuffers, offsets);
 
     vkCmdDraw(commandBuffer, static_cast<uint32_t>(vertices.size()), 1, 0, 0);
+
+    if (imguiLayer)
+    {
+        imguiLayer->Render(commandBuffer);
+    }
 
     vkCmdEndRenderPass(commandBuffer);
 

@@ -10,7 +10,12 @@ project "RealityEngine"
 	files
 	{
 		"Source/**.h",
-		"Source/**.cpp"
+		"Source/**.cpp",
+		-- ImGui backend implementations
+		"%{IncludeDir.ImGui}/backends/imgui_impl_glfw.h",
+		"%{IncludeDir.ImGui}/backends/imgui_impl_glfw.cpp",
+		"%{IncludeDir.ImGui}/backends/imgui_impl_vulkan.h",
+		"%{IncludeDir.ImGui}/backends/imgui_impl_vulkan.cpp"
 	}
 	
 	includedirs
@@ -37,6 +42,7 @@ project "RealityEngine"
 
 		defines
 		{
+			"IMGUI_IMPL_VULKAN_USE_VOLK=0"
 		}
 
 		links

@@ -16,7 +16,7 @@ workspace "RealityEngine"
 outputdir = "%{cfg.buildcfg}/%{cfg.system}/%{cfg.architecture}"
 
 IncludeDir = {}
-IncludeDir["ImGui"] = "%{wks.location}/Engine/ThirdParty/ImGui"
+IncludeDir["ImGui"] = "%{wks.location}/Engine/ThirdParty/imgui-docking"
 IncludeDir["VulkanSDK"] = os.getenv("VULKAN_SDK") .. "/Include"
 IncludeDir["GLFW"] = "%{wks.location}/Engine/ThirdParty/glfw-3.4"
 IncludeDir["GLM"] = "%{wks.location}/Engine/ThirdParty/glm-1.0.2"

@@ -5,6 +5,9 @@
 #include <vector>
 #include <array>
 
+// Forward declaration
+class ImGuiLayer;
+
 struct Vertex
 {
     glm::vec2 pos;
@@ -48,6 +51,7 @@ public:
     bool Initialize();
     void Cleanup();
     void DrawFrame();
+    void SetImGuiLayer(ImGuiLayer* layer) { imguiLayer = layer; }
 
 private:
     void CreateGraphicsPipeline();
@@ -60,6 +64,7 @@ private:
     uint32_t FindMemoryType(uint32_t typeFilter, VkMemoryPropertyFlags properties);
 
     VulkanContext* vulkanContext;
+    ImGuiLayer* imguiLayer = nullptr;
 
     VkPipelineLayout pipelineLayout = VK_NULL_HANDLE;
     VkPipeline graphicsPipeline = VK_NULL_HANDLE;

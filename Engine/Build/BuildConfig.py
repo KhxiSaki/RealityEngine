@@ -33,8 +33,8 @@ class Dependency:
 DEPENDENCIES: list[Dependency] = [
     Dependency(
         name="ImGui",
-        version="1.92.5",
-        url="https://github.com/ocornut/imgui/archive/refs/tags/v1.92.5.zip",
+        version="docking",
+        url="https://github.com/ocornut/imgui/archive/refs/heads/docking.zip",
         install_path=f"{THIRD_PARTY_DIR}/ImGui",
         extracted_folder="imgui-1.92.5"
     ), 

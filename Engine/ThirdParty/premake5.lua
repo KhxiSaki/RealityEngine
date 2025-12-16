@@ -2,22 +2,26 @@ project "ImGui"
 	kind "StaticLib"
 	language "C++"
 
-	targetdir ("ImGui/Binaries/" .. outputdir .. "/%{prj.name}")
-	objdir ("ImGui/Intermediate/" .. outputdir .. "/%{prj.name}")
+	targetdir ("imgui-docking/Binaries/" .. outputdir .. "/%{prj.name}")
+	objdir ("imgui-docking/Intermediate/" .. outputdir .. "/%{prj.name}")
 
 	files
 	{
-		"ImGui/imconfig.h",
-		"ImGui/imgui.h",
-		"ImGui/imgui.cpp",
-		"ImGui/imgui_draw.cpp",
-		"ImGui/imgui_internal.h",
-		"ImGui/imgui_widgets.cpp",
-		"ImGui/imstb_rectpack.h",
-		"ImGui/imstb_textedit.h",
-		"ImGui/imstb_truetype.h",
-		"ImGui/imgui_demo.cpp",
-		"ImGui/imgui_tables.cpp"
+		"imgui-docking/imconfig.h",
+		"imgui-docking/imgui.h",
+		"imgui-docking/imgui.cpp",
+		"imgui-docking/imgui_draw.cpp",
+		"imgui-docking/imgui_internal.h",
+		"imgui-docking/imgui_widgets.cpp",
+		"imgui-docking/imstb_rectpack.h",
+		"imgui-docking/imstb_textedit.h",
+		"imgui-docking/imstb_truetype.h",
+		"imgui-docking/imgui_demo.cpp",
+		"imgui-docking/imgui_tables.cpp",
+"imgui-docking/backends/imgui_impl_glfw.h",
+		"imgui-docking/backends/imgui_impl_glfw.cpp",
+		"imgui-docking/backends/imgui_impl_vulkan.h",
+		"imgui-docking/backends/imgui_impl_vulkan.cpp"
 	}
 
 	filter "system:windows"

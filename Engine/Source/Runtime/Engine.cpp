@@ -2,6 +2,8 @@
 #include "VulkanContext.h"
 #include "TriangleRenderer.h"
 #include <iostream>
+#include "EditorUI.h"
+#include "ImGuiLayer.h"
 
 Engine::Engine()
 {
@@ -9,6 +11,19 @@ Engine::Engine()
 
 Engine::~Engine()
 {
+	if (editorUI)
+	{
+		delete editorUI;
+		editorUI = nullptr;
+	}
+
+	if (imguiLayer)
+	{
+		delete imguiLayer;
+		imguiLayer = nullptr;
+	}
+
+
 	if (triangleRenderer)
 	{
 		delete triangleRenderer;
@@ -73,6 +88,7 @@ void Engine::PreInitialization()
 		return;
 	}
 
+	glfwMakeContextCurrent(window);
 	std::cout << "Window created successfully!" << std::endl;
 }
 
@@ -97,6 +113,22 @@ void Engine::Initialization()
 		return;
 	}
 
+	// Initialize ImGui
+	imguiLayer = new ImGuiLayer();
+	if (!imguiLayer->Initialize(window, vulkanContext))
+	{
+		std::cerr << "Failed to initialize ImGui!" << std::endl;
+		return;
+	}
+
+	// Connect ImGui to triangle renderer
+	triangleRenderer->SetImGuiLayer(imguiLayer);
+
+	// Initialize Editor UI
+	editorUI = new EditorUI();
+	editorUI->Initialize(imguiLayer, window);
+
+
 	bInitialized = true;
 	std::cout << "Engine initialized successfully!" << std::endl;
 }
@@ -119,6 +151,7 @@ void Engine::Run(double DeltaTime)
 	PostRender();
 }
 
+
 void Engine::PreInitializeInput()
 {
 	glfwPollEvents();
@@ -138,6 +171,11 @@ void Engine::PreUpdate()
 
 void Engine::Update(double DeltaTime)
 {
+	if (editorUI)
+	{
+		editorUI->Update(DeltaTime);
+	}
+
 }
 
 void Engine::PostUpdate()
@@ -146,22 +184,34 @@ void Engine::PostUpdate()
 
 void Engine::PreRender()
 {
-	glfwSwapBuffers(window);
 }
 
 void Engine::Render()
 {
-	if (triangleRenderer)
+	if (triangleRenderer && imguiLayer && editorUI)
 	{
+		// Start ImGui frame
+		imguiLayer->BeginFrame();
+
+		// Render editor UI
+		editorUI->Render();
+
+		// End ImGui frame
+		imguiLayer->EndFrame();
+
+		// Draw the frame (includes both triangle and ImGui)
 		triangleRenderer->DrawFrame();
 	}
+
 }
 
 void Engine::PostRender()
 {
+	glfwSwapBuffers(window);
 }
 
 bool Engine::ShouldClose() const
 {
 	return window ? glfwWindowShouldClose(window) : true;
 }
+

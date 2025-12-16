@@ -35,7 +35,7 @@ Makefile
 # -----------------------------------------------------------------------------
 # Third-Party Dependencies (downloaded by Setup.py)
 # -----------------------------------------------------------------------------
-Engine/ThirdParty/ImGui/
+Engine/ThirdParty/imgui-docking/
 Engine/ThirdParty/spdlog-1.16.0/
 Engine/ThirdParty/glfw-3.4/
 Engine/ThirdParty/glm-1.0.2/
