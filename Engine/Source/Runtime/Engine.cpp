@@ -46,8 +46,26 @@ void Engine::PreInitialization()
 	glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
 	glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
 
+	// Get the primary monitor
+	GLFWmonitor* primary_monitor = glfwGetPrimaryMonitor();
+	if (!primary_monitor)
+	{
+		return;
+	}
+
+	// Get the current video mode (contains width, height, refresh rate, etc.)
+	const GLFWvidmode* mode = glfwGetVideoMode(primary_monitor);
+	if (!mode)
+	{
+		return;
+	}
+
 	// Create window
-	window = glfwCreateWindow(800, 600, "RealityEngine - Vulkan Triangle", nullptr, nullptr);
+	window = glfwCreateWindow(mode->width,
+		mode->height,
+		"RealityEngine",
+		primary_monitor,
+		nullptr);
 	if (!window)
 	{
 		std::cerr << "Failed to create GLFW window!" << std::endl;
@@ -128,6 +146,7 @@ void Engine::PostUpdate()
 
 void Engine::PreRender()
 {
+	glfwSwapBuffers(window);
 }
 
 void Engine::Render()

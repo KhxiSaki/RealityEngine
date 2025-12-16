@@ -36,12 +36,5 @@ void Applications::Run()
 		{
 			engine.Run(deltaTime);
 		}
-
-		// Cap the frame rate to 60 FPS
-		if (deltaTime < (1000.0 / 60.0) / 1000.0) 
-		{
-			std::this_thread::sleep_for(std::chrono::microseconds(
-				static_cast<long long>((1000.0 / 60.0 - deltaTime * 1000.0) * 1000.0)));
-		}
 	}
 }
