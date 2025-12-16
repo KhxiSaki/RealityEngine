@@ -1,6 +1,7 @@
 #include "Runtime/Engine.h"
 #include "VulkanContext.h"
 #include "TriangleRenderer.h"
+#include "ViewportRenderer.h"
 #include <iostream>
 #include "EditorUI.h"
 #include "ImGuiLayer.h"
@@ -17,12 +18,17 @@ Engine::~Engine()
 		editorUI = nullptr;
 	}
 
+	if (viewportRenderer)
+	{
+		delete viewportRenderer;
+		viewportRenderer = nullptr;
+	}
+
 	if (imguiLayer)
 	{
 		delete imguiLayer;
 		imguiLayer = nullptr;
 	}
-
 
 	if (triangleRenderer)
 	{
@@ -105,6 +111,22 @@ void Engine::Initialization()
 		return;
 	}
 
+	// Initialize ImGui FIRST (before viewport renderer, since it needs ImGui's descriptor pool)
+	imguiLayer = new ImGuiLayer();
+	if (!imguiLayer->Initialize(window, vulkanContext))
+	{
+		std::cerr << "Failed to initialize ImGui!" << std::endl;
+		return;
+	}
+
+	// Initialize viewport renderer (for rendering scene to texture)
+	viewportRenderer = new ViewportRenderer(vulkanContext);
+	if (!viewportRenderer->Initialize(1280, 720))
+	{
+		std::cerr << "Failed to initialize viewport renderer!" << std::endl;
+		return;
+	}
+
 	// Initialize triangle renderer
 	triangleRenderer = new TriangleRenderer(vulkanContext);
 	if (!triangleRenderer->Initialize())
@@ -113,21 +135,14 @@ void Engine::Initialization()
 		return;
 	}
 
-	// Initialize ImGui
-	imguiLayer = new ImGuiLayer();
-	if (!imguiLayer->Initialize(window, vulkanContext))
-	{
-		std::cerr << "Failed to initialize ImGui!" << std::endl;
-		return;
-	}
-
-	// Connect ImGui to triangle renderer
+	// Connect components
 	triangleRenderer->SetImGuiLayer(imguiLayer);
+	triangleRenderer->SetViewportRenderer(viewportRenderer);
 
 	// Initialize Editor UI
 	editorUI = new EditorUI();
 	editorUI->Initialize(imguiLayer, window);
-
+	editorUI->SetViewportRenderer(viewportRenderer);
 
 	bInitialized = true;
 	std::cout << "Engine initialized successfully!" << std::endl;
@@ -150,7 +165,6 @@ void Engine::Run(double DeltaTime)
 	PostUpdate();
 	PostRender();
 }
-
 
 void Engine::PreInitializeInput()
 {
@@ -175,7 +189,6 @@ void Engine::Update(double DeltaTime)
 	{
 		editorUI->Update(DeltaTime);
 	}
-
 }
 
 void Engine::PostUpdate()
@@ -193,16 +206,15 @@ void Engine::Render()
 		// Start ImGui frame
 		imguiLayer->BeginFrame();
 
-		// Render editor UI
+		// Render editor UI (includes viewport)
 		editorUI->Render();
 
 		// End ImGui frame
 		imguiLayer->EndFrame();
 
-		// Draw the frame (includes both triangle and ImGui)
+		// Draw the frame (renders scene to viewport, then ImGui to swap chain)
 		triangleRenderer->DrawFrame();
 	}
-
 }
 
 void Engine::PostRender()
@@ -214,4 +226,3 @@ bool Engine::ShouldClose() const
 {
 	return window ? glfwWindowShouldClose(window) : true;
 }
-

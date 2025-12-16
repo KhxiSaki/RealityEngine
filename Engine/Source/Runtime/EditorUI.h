@@ -1,9 +1,12 @@
 #pragma once
 
 #include <GLFW/glfw3.h>
+#include <vulkan/vulkan.h>
 #include <string>
+#include <glm/glm.hpp>
 
 class ImGuiLayer;
+class ViewportRenderer;
 
 class EditorUI
 {
@@ -14,9 +17,12 @@ public:
     void Initialize(ImGuiLayer* imguiLayer, GLFWwindow* window);
     void Update(double deltaTime);
     void Render();
+    
+    void SetViewportRenderer(ViewportRenderer* renderer) { viewportRenderer = renderer; }
 
     bool IsViewportHovered() const { return viewportHovered; }
     bool IsViewportFocused() const { return viewportFocused; }
+    glm::vec2 GetViewportSize() const { return viewportSize; }
 
 private:
     void RenderMainMenuBar();
@@ -26,9 +32,11 @@ private:
 
     ImGuiLayer* imguiLayer = nullptr;
     GLFWwindow* window = nullptr;
+    ViewportRenderer* viewportRenderer = nullptr;
     
     bool viewportHovered = false;
     bool viewportFocused = false;
+    glm::vec2 viewportSize = glm::vec2(0.0f, 0.0f);
     
     // Stats
     double fps = 0.0;

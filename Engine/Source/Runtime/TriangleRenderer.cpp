@@ -1,4 +1,5 @@
 #include "TriangleRenderer.h"
+#include "ViewportRenderer.h"
 #include <iostream>
 #include <stdexcept>
 #include <cstring>
@@ -111,6 +112,12 @@ void TriangleRenderer::Cleanup()
             }
         }
 
+        if (viewportPipeline != VK_NULL_HANDLE)
+        {
+            vkDestroyPipeline(device, viewportPipeline, nullptr);
+            viewportPipeline = VK_NULL_HANDLE;
+        }
+
         if (graphicsPipeline != VK_NULL_HANDLE)
         {
             vkDestroyPipeline(device, graphicsPipeline, nullptr);
@@ -146,7 +153,6 @@ void TriangleRenderer::CreateGraphicsPipeline()
     std::vector<char> fragShaderBytes(sizeof(fragShaderCode));
     std::memcpy(fragShaderBytes.data(), fragShaderCode, sizeof(fragShaderCode));
 
-    //TODO: Use shader and not bytecode. Use vulkan tutorial method
     VkShaderModule vertShaderModule = CreateShaderModule(vertShaderBytes);
     VkShaderModule fragShaderModule = CreateShaderModule(fragShaderBytes);
 
@@ -181,25 +187,22 @@ void TriangleRenderer::CreateGraphicsPipeline()
     inputAssembly.topology = VK_PRIMITIVE_TOPOLOGY_TRIANGLE_LIST;
     inputAssembly.primitiveRestartEnable = VK_FALSE;
 
-    // Viewport and scissor
-    VkViewport viewport{};
-    viewport.x = 0.0f;
-    viewport.y = 0.0f;
-    viewport.width = static_cast<float>(vulkanContext->GetSwapChainExtent().width);
-    viewport.height = static_cast<float>(vulkanContext->GetSwapChainExtent().height);
-    viewport.minDepth = 0.0f;
-    viewport.maxDepth = 1.0f;
+    // Dynamic state (for viewport)
+    std::vector<VkDynamicState> dynamicStates = {
+        VK_DYNAMIC_STATE_VIEWPORT,
+        VK_DYNAMIC_STATE_SCISSOR
+    };
 
-    VkRect2D scissor{};
-    scissor.offset = { 0, 0 };
-    scissor.extent = vulkanContext->GetSwapChainExtent();
+    VkPipelineDynamicStateCreateInfo dynamicState{};
+    dynamicState.sType = VK_STRUCTURE_TYPE_PIPELINE_DYNAMIC_STATE_CREATE_INFO;
+    dynamicState.dynamicStateCount = static_cast<uint32_t>(dynamicStates.size());
+    dynamicState.pDynamicStates = dynamicStates.data();
 
+    // Viewport state (will be set dynamically)
     VkPipelineViewportStateCreateInfo viewportState{};
     viewportState.sType = VK_STRUCTURE_TYPE_PIPELINE_VIEWPORT_STATE_CREATE_INFO;
     viewportState.viewportCount = 1;
-    viewportState.pViewports = &viewport;
     viewportState.scissorCount = 1;
-    viewportState.pScissors = &scissor;
 
     // Rasterizer
     VkPipelineRasterizationStateCreateInfo rasterizer{};
@@ -238,7 +241,7 @@ void TriangleRenderer::CreateGraphicsPipeline()
         throw std::runtime_error("Failed to create pipeline layout!");
     }
 
-    // Graphics pipeline
+    // Graphics pipeline for swap chain (ImGui overlay)
     VkGraphicsPipelineCreateInfo pipelineInfo{};
     pipelineInfo.sType = VK_STRUCTURE_TYPE_GRAPHICS_PIPELINE_CREATE_INFO;
     pipelineInfo.stageCount = 2;
@@ -249,6 +252,7 @@ void TriangleRenderer::CreateGraphicsPipeline()
     pipelineInfo.pRasterizationState = &rasterizer;
     pipelineInfo.pMultisampleState = &multisampling;
     pipelineInfo.pColorBlendState = &colorBlending;
+    pipelineInfo.pDynamicState = &dynamicState;
     pipelineInfo.layout = pipelineLayout;
     pipelineInfo.renderPass = vulkanContext->GetRenderPass();
     pipelineInfo.subpass = 0;
@@ -342,6 +346,25 @@ void TriangleRenderer::CreateSyncObjects()
     }
 }
 
+void TriangleRenderer::RecordViewportRender(VkCommandBuffer commandBuffer)
+{
+    if (!viewportRenderer)
+        return;
+
+    // Render triangle to viewport texture
+    viewportRenderer->BeginRenderPass(commandBuffer);
+    
+    vkCmdBindPipeline(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, graphicsPipeline);
+    
+    VkBuffer vertexBuffers[] = { vertexBuffer };
+    VkDeviceSize offsets[] = { 0 };
+    vkCmdBindVertexBuffers(commandBuffer, 0, 1, vertexBuffers, offsets);
+    
+    vkCmdDraw(commandBuffer, static_cast<uint32_t>(vertices.size()), 1, 0, 0);
+    
+    viewportRenderer->EndRenderPass(commandBuffer);
+}
+
 void TriangleRenderer::RecordCommandBuffer(VkCommandBuffer commandBuffer, uint32_t imageIndex)
 {
     VkCommandBufferBeginInfo beginInfo{};
@@ -352,6 +375,10 @@ void TriangleRenderer::RecordCommandBuffer(VkCommandBuffer commandBuffer, uint32
         throw std::runtime_error("Failed to begin recording command buffer!");
     }
 
+    // First: Render scene to viewport texture
+    RecordViewportRender(commandBuffer);
+
+    // Second: Render ImGui to swap chain
     VkRenderPassBeginInfo renderPassInfo{};
     renderPassInfo.sType = VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO;
     renderPassInfo.renderPass = vulkanContext->GetRenderPass();
@@ -364,14 +391,8 @@ void TriangleRenderer::RecordCommandBuffer(VkCommandBuffer commandBuffer, uint32
     renderPassInfo.pClearValues = &clearColor;
 
     vkCmdBeginRenderPass(commandBuffer, &renderPassInfo, VK_SUBPASS_CONTENTS_INLINE);
-    vkCmdBindPipeline(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, graphicsPipeline);
 
-    VkBuffer vertexBuffers[] = { vertexBuffer };
-    VkDeviceSize offsets[] = { 0 };
-    vkCmdBindVertexBuffers(commandBuffer, 0, 1, vertexBuffers, offsets);
-
-    vkCmdDraw(commandBuffer, static_cast<uint32_t>(vertices.size()), 1, 0, 0);
-
+    // Render ImGui (which will display the viewport texture)
     if (imguiLayer)
     {
         imguiLayer->Render(commandBuffer);

@@ -5,8 +5,9 @@
 #include <vector>
 #include <array>
 
-// Forward declaration
+// Forward declarations
 class ImGuiLayer;
+class ViewportRenderer;
 
 struct Vertex
 {
@@ -52,6 +53,7 @@ public:
     void Cleanup();
     void DrawFrame();
     void SetImGuiLayer(ImGuiLayer* layer) { imguiLayer = layer; }
+    void SetViewportRenderer(ViewportRenderer* renderer) { viewportRenderer = renderer; }
 
 private:
     void CreateGraphicsPipeline();
@@ -59,15 +61,18 @@ private:
     void CreateCommandBuffers();
     void CreateSyncObjects();
     void RecordCommandBuffer(VkCommandBuffer commandBuffer, uint32_t imageIndex);
+    void RecordViewportRender(VkCommandBuffer commandBuffer);
 
     VkShaderModule CreateShaderModule(const std::vector<char>& code);
     uint32_t FindMemoryType(uint32_t typeFilter, VkMemoryPropertyFlags properties);
 
     VulkanContext* vulkanContext;
     ImGuiLayer* imguiLayer = nullptr;
+    ViewportRenderer* viewportRenderer = nullptr;
 
     VkPipelineLayout pipelineLayout = VK_NULL_HANDLE;
     VkPipeline graphicsPipeline = VK_NULL_HANDLE;
+    VkPipeline viewportPipeline = VK_NULL_HANDLE;
 
     VkBuffer vertexBuffer = VK_NULL_HANDLE;
     VkDeviceMemory vertexBufferMemory = VK_NULL_HANDLE;

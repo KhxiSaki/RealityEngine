@@ -1,5 +1,6 @@
 #include "EditorUI.h"
 #include "ImGuiLayer.h"
+#include "ViewportRenderer.h"
 #include <imgui.h>
 #include <iostream>
 
@@ -131,42 +132,31 @@ void EditorUI::RenderViewport()
     viewportFocused = ImGui::IsWindowFocused();
 
     ImVec2 viewportPanelSize = ImGui::GetContentRegionAvail();
+    viewportSize = glm::vec2(viewportPanelSize.x, viewportPanelSize.y);
 
-    // This is where we would render the scene to a texture and display it
-    // For now, we'll just show a placeholder
-    ImGui::Text("Viewport: %.0fx%.0f", viewportPanelSize.x, viewportPanelSize.y);
-    ImGui::Text("Scene rendering here");
-
-    // Draw colored rectangle to indicate viewport area
-    ImDrawList* draw_list = ImGui::GetWindowDrawList();
-    ImVec2 canvas_pos = ImGui::GetCursorScreenPos();
-    ImVec2 canvas_size = ImGui::GetContentRegionAvail();
-    
-    if (canvas_size.x > 0 && canvas_size.y > 0)
+    // Handle viewport resize
+    if (viewportRenderer && viewportSize.x > 0 && viewportSize.y > 0)
     {
-        draw_list->AddRectFilled(
-            canvas_pos,
-            ImVec2(canvas_pos.x + canvas_size.x, canvas_pos.y + canvas_size.y),
-            IM_COL32(20, 20, 20, 255)
-        );
-
-        // Draw center crosshair
-        float centerX = canvas_pos.x + canvas_size.x * 0.5f;
-        float centerY = canvas_pos.y + canvas_size.y * 0.5f;
+        uint32_t width = static_cast<uint32_t>(viewportSize.x);
+        uint32_t height = static_cast<uint32_t>(viewportSize.y);
         
-        draw_list->AddLine(
-            ImVec2(centerX - 10, centerY),
-            ImVec2(centerX + 10, centerY),
-            IM_COL32(100, 100, 100, 255),
-            1.0f
-        );
+        if (width != viewportRenderer->GetWidth() || height != viewportRenderer->GetHeight())
+        {
+            viewportRenderer->Resize(width, height);
+        }
         
-        draw_list->AddLine(
-            ImVec2(centerX, centerY - 10),
-            ImVec2(centerX, centerY + 10),
-            IM_COL32(100, 100, 100, 255),
-            1.0f
-        );
+        // Display the rendered texture
+        VkDescriptorSet textureID = viewportRenderer->GetImGuiTextureID();
+        if (textureID)
+        {
+            ImGui::Image(textureID, viewportPanelSize);
+        }
+    }
+    else
+    {
+        // Fallback: show placeholder if no viewport renderer
+        ImGui::Text("Viewport: %.0fx%.0f", viewportSize.x, viewportSize.y);
+        ImGui::Text("Waiting for viewport renderer...");
     }
 
     ImGui::End();
@@ -191,6 +181,7 @@ void EditorUI::RenderStats(double deltaTime)
     
     ImGui::Separator();
     ImGui::Text("Viewport:");
+    ImGui::Text("  Size: %.0fx%.0f", viewportSize.x, viewportSize.y);
     ImGui::Text("  Hovered: %s", viewportHovered ? "Yes" : "No");
     ImGui::Text("  Focused: %s", viewportFocused ? "Yes" : "No");
 
