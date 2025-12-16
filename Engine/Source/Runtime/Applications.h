@@ -1,4 +1,7 @@
 #pragma once
+
+class Engine;
+
 class Applications
 {
 public:
@@ -11,4 +14,3 @@ protected:
 	bool bIsApplicationRunning = true;
 	double lastFrame;
 };
-
