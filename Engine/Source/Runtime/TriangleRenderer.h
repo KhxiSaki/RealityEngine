@@ -53,10 +53,11 @@ public:
     void Cleanup();
     void DrawFrame();
     void SetImGuiLayer(ImGuiLayer* layer) { imguiLayer = layer; }
-    void SetViewportRenderer(ViewportRenderer* renderer) { viewportRenderer = renderer; }
+    void SetViewportRenderer(ViewportRenderer* renderer);  // Implemented in .cpp
 
 private:
     void CreateGraphicsPipeline();
+    void CreateViewportPipeline();  // NEW: Separate pipeline for viewport
     void CreateVertexBuffer();
     void CreateCommandBuffers();
     void CreateSyncObjects();
@@ -71,8 +72,8 @@ private:
     ViewportRenderer* viewportRenderer = nullptr;
 
     VkPipelineLayout pipelineLayout = VK_NULL_HANDLE;
-    VkPipeline graphicsPipeline = VK_NULL_HANDLE;
-    VkPipeline viewportPipeline = VK_NULL_HANDLE;
+    VkPipeline graphicsPipeline = VK_NULL_HANDLE;      // For swap chain
+    VkPipeline viewportPipeline = VK_NULL_HANDLE;      // For viewport
 
     VkBuffer vertexBuffer = VK_NULL_HANDLE;
     VkDeviceMemory vertexBufferMemory = VK_NULL_HANDLE;
@@ -82,6 +83,7 @@ private:
     std::vector<VkSemaphore> imageAvailableSemaphores;
     std::vector<VkSemaphore> renderFinishedSemaphores;
     std::vector<VkFence> inFlightFences;
+    std::vector<VkFence> imagesInFlight;  // NEW: Track which fence is using each swapchain image
     uint32_t currentFrame = 0;
 
     const int MAX_FRAMES_IN_FLIGHT = 2;

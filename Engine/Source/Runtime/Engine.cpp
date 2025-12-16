@@ -135,9 +135,9 @@ void Engine::Initialization()
 		return;
 	}
 
-	// Connect components
+	// Connect components - IMPORTANT: This must happen AFTER both are initialized
 	triangleRenderer->SetImGuiLayer(imguiLayer);
-	triangleRenderer->SetViewportRenderer(viewportRenderer);
+	triangleRenderer->SetViewportRenderer(viewportRenderer);  // This now creates the viewport pipeline
 
 	// Initialize Editor UI
 	editorUI = new EditorUI();

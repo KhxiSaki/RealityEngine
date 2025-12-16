@@ -5,9 +5,9 @@
 #include <cstring>
 #include "ImGuiLayer.h"
 
-// Vertex Shader SPIR-V - Manually corrected to fix duplicate ID issue
+// FIXED Vertex Shader SPIR-V - Corrected ID bound from 0x2d to 0x2e
 static const uint32_t vertShaderCode[] = {
-    0x07230203, 0x00010000, 0x0008000a, 0x0000002d, 0x00000000, 0x00020011, 0x00000001, 0x0006000b,
+    0x07230203, 0x00010000, 0x0008000a, 0x0000002e, 0x00000000, 0x00020011, 0x00000001, 0x0006000b,
     0x00000001, 0x4c534c47, 0x6474732e, 0x3035342e, 0x00000000, 0x0003000e, 0x00000000, 0x00000001,
     0x0009000f, 0x00000000, 0x00000004, 0x6e69616d, 0x00000000, 0x0000000b, 0x0000000f, 0x00000024,
     0x00000028, 0x00030003, 0x00000002, 0x000001c2, 0x00040005, 0x00000004, 0x6e69616d, 0x00000000,
@@ -85,6 +85,17 @@ bool TriangleRenderer::Initialize()
     {
         std::cerr << "Triangle renderer initialization failed: " << e.what() << std::endl;
         return false;
+    }
+}
+
+void TriangleRenderer::SetViewportRenderer(ViewportRenderer* renderer)
+{
+    viewportRenderer = renderer;
+
+    // Create the viewport-specific pipeline now that we have the viewport renderer
+    if (viewportRenderer && pipelineLayout != VK_NULL_HANDLE)
+    {
+        CreateViewportPipeline();
     }
 }
 
@@ -241,7 +252,7 @@ void TriangleRenderer::CreateGraphicsPipeline()
         throw std::runtime_error("Failed to create pipeline layout!");
     }
 
-    // Graphics pipeline for swap chain (ImGui overlay)
+    // Graphics pipeline for swap chain (ImGui overlay) - using B8G8R8A8_SRGB
     VkGraphicsPipelineCreateInfo pipelineInfo{};
     pipelineInfo.sType = VK_STRUCTURE_TYPE_GRAPHICS_PIPELINE_CREATE_INFO;
     pipelineInfo.stageCount = 2;
@@ -266,6 +277,117 @@ void TriangleRenderer::CreateGraphicsPipeline()
     vkDestroyShaderModule(vulkanContext->GetDevice(), vertShaderModule, nullptr);
 
     std::cout << "Graphics pipeline created successfully!" << std::endl;
+}
+
+void TriangleRenderer::CreateViewportPipeline()
+{
+    if (!viewportRenderer)
+        return;
+
+    // Reuse the same shader modules
+    std::vector<char> vertShaderBytes(sizeof(vertShaderCode));
+    std::memcpy(vertShaderBytes.data(), vertShaderCode, sizeof(vertShaderCode));
+
+    std::vector<char> fragShaderBytes(sizeof(fragShaderCode));
+    std::memcpy(fragShaderBytes.data(), fragShaderCode, sizeof(fragShaderCode));
+
+    VkShaderModule vertShaderModule = CreateShaderModule(vertShaderBytes);
+    VkShaderModule fragShaderModule = CreateShaderModule(fragShaderBytes);
+
+    VkPipelineShaderStageCreateInfo vertShaderStageInfo{};
+    vertShaderStageInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO;
+    vertShaderStageInfo.stage = VK_SHADER_STAGE_VERTEX_BIT;
+    vertShaderStageInfo.module = vertShaderModule;
+    vertShaderStageInfo.pName = "main";
+
+    VkPipelineShaderStageCreateInfo fragShaderStageInfo{};
+    fragShaderStageInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO;
+    fragShaderStageInfo.stage = VK_SHADER_STAGE_FRAGMENT_BIT;
+    fragShaderStageInfo.module = fragShaderModule;
+    fragShaderStageInfo.pName = "main";
+
+    VkPipelineShaderStageCreateInfo shaderStages[] = { vertShaderStageInfo, fragShaderStageInfo };
+
+    auto bindingDescription = Vertex::GetBindingDescription();
+    auto attributeDescriptions = Vertex::GetAttributeDescriptions();
+
+    VkPipelineVertexInputStateCreateInfo vertexInputInfo{};
+    vertexInputInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_VERTEX_INPUT_STATE_CREATE_INFO;
+    vertexInputInfo.vertexBindingDescriptionCount = 1;
+    vertexInputInfo.pVertexBindingDescriptions = &bindingDescription;
+    vertexInputInfo.vertexAttributeDescriptionCount = static_cast<uint32_t>(attributeDescriptions.size());
+    vertexInputInfo.pVertexAttributeDescriptions = attributeDescriptions.data();
+
+    VkPipelineInputAssemblyStateCreateInfo inputAssembly{};
+    inputAssembly.sType = VK_STRUCTURE_TYPE_PIPELINE_INPUT_ASSEMBLY_STATE_CREATE_INFO;
+    inputAssembly.topology = VK_PRIMITIVE_TOPOLOGY_TRIANGLE_LIST;
+    inputAssembly.primitiveRestartEnable = VK_FALSE;
+
+    std::vector<VkDynamicState> dynamicStates = {
+        VK_DYNAMIC_STATE_VIEWPORT,
+        VK_DYNAMIC_STATE_SCISSOR
+    };
+
+    VkPipelineDynamicStateCreateInfo dynamicState{};
+    dynamicState.sType = VK_STRUCTURE_TYPE_PIPELINE_DYNAMIC_STATE_CREATE_INFO;
+    dynamicState.dynamicStateCount = static_cast<uint32_t>(dynamicStates.size());
+    dynamicState.pDynamicStates = dynamicStates.data();
+
+    VkPipelineViewportStateCreateInfo viewportState{};
+    viewportState.sType = VK_STRUCTURE_TYPE_PIPELINE_VIEWPORT_STATE_CREATE_INFO;
+    viewportState.viewportCount = 1;
+    viewportState.scissorCount = 1;
+
+    VkPipelineRasterizationStateCreateInfo rasterizer{};
+    rasterizer.sType = VK_STRUCTURE_TYPE_PIPELINE_RASTERIZATION_STATE_CREATE_INFO;
+    rasterizer.depthClampEnable = VK_FALSE;
+    rasterizer.rasterizerDiscardEnable = VK_FALSE;
+    rasterizer.polygonMode = VK_POLYGON_MODE_FILL;
+    rasterizer.lineWidth = 1.0f;
+    rasterizer.cullMode = VK_CULL_MODE_BACK_BIT;
+    rasterizer.frontFace = VK_FRONT_FACE_CLOCKWISE;
+    rasterizer.depthBiasEnable = VK_FALSE;
+
+    VkPipelineMultisampleStateCreateInfo multisampling{};
+    multisampling.sType = VK_STRUCTURE_TYPE_PIPELINE_MULTISAMPLE_STATE_CREATE_INFO;
+    multisampling.sampleShadingEnable = VK_FALSE;
+    multisampling.rasterizationSamples = VK_SAMPLE_COUNT_1_BIT;
+
+    VkPipelineColorBlendAttachmentState colorBlendAttachment{};
+    colorBlendAttachment.colorWriteMask = VK_COLOR_COMPONENT_R_BIT | VK_COLOR_COMPONENT_G_BIT | VK_COLOR_COMPONENT_B_BIT | VK_COLOR_COMPONENT_A_BIT;
+    colorBlendAttachment.blendEnable = VK_FALSE;
+
+    VkPipelineColorBlendStateCreateInfo colorBlending{};
+    colorBlending.sType = VK_STRUCTURE_TYPE_PIPELINE_COLOR_BLEND_STATE_CREATE_INFO;
+    colorBlending.logicOpEnable = VK_FALSE;
+    colorBlending.attachmentCount = 1;
+    colorBlending.pAttachments = &colorBlendAttachment;
+
+    // Create pipeline for VIEWPORT render pass (R8G8B8A8_UNORM)
+    VkGraphicsPipelineCreateInfo pipelineInfo{};
+    pipelineInfo.sType = VK_STRUCTURE_TYPE_GRAPHICS_PIPELINE_CREATE_INFO;
+    pipelineInfo.stageCount = 2;
+    pipelineInfo.pStages = shaderStages;
+    pipelineInfo.pVertexInputState = &vertexInputInfo;
+    pipelineInfo.pInputAssemblyState = &inputAssembly;
+    pipelineInfo.pViewportState = &viewportState;
+    pipelineInfo.pRasterizationState = &rasterizer;
+    pipelineInfo.pMultisampleState = &multisampling;
+    pipelineInfo.pColorBlendState = &colorBlending;
+    pipelineInfo.pDynamicState = &dynamicState;
+    pipelineInfo.layout = pipelineLayout;
+    pipelineInfo.renderPass = viewportRenderer->GetRenderPass();  // Use viewport's render pass
+    pipelineInfo.subpass = 0;
+
+    if (vkCreateGraphicsPipelines(vulkanContext->GetDevice(), VK_NULL_HANDLE, 1, &pipelineInfo, nullptr, &viewportPipeline) != VK_SUCCESS)
+    {
+        throw std::runtime_error("Failed to create viewport pipeline!");
+    }
+
+    vkDestroyShaderModule(vulkanContext->GetDevice(), fragShaderModule, nullptr);
+    vkDestroyShaderModule(vulkanContext->GetDevice(), vertShaderModule, nullptr);
+
+    std::cout << "Viewport pipeline created successfully!" << std::endl;
 }
 
 void TriangleRenderer::CreateVertexBuffer()
@@ -327,6 +449,7 @@ void TriangleRenderer::CreateSyncObjects()
     imageAvailableSemaphores.resize(MAX_FRAMES_IN_FLIGHT);
     renderFinishedSemaphores.resize(MAX_FRAMES_IN_FLIGHT);
     inFlightFences.resize(MAX_FRAMES_IN_FLIGHT);
+    imagesInFlight.resize(vulkanContext->GetSwapChainImageViews().size(), VK_NULL_HANDLE);
 
     VkSemaphoreCreateInfo semaphoreInfo{};
     semaphoreInfo.sType = VK_STRUCTURE_TYPE_SEMAPHORE_CREATE_INFO;
@@ -348,20 +471,20 @@ void TriangleRenderer::CreateSyncObjects()
 
 void TriangleRenderer::RecordViewportRender(VkCommandBuffer commandBuffer)
 {
-    if (!viewportRenderer)
+    if (!viewportRenderer || viewportPipeline == VK_NULL_HANDLE)
         return;
 
-    // Render triangle to viewport texture
+    // Render triangle to viewport texture using the VIEWPORT pipeline
     viewportRenderer->BeginRenderPass(commandBuffer);
-    
-    vkCmdBindPipeline(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, graphicsPipeline);
-    
+
+    vkCmdBindPipeline(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, viewportPipeline);  // Use viewport pipeline!
+
     VkBuffer vertexBuffers[] = { vertexBuffer };
     VkDeviceSize offsets[] = { 0 };
     vkCmdBindVertexBuffers(commandBuffer, 0, 1, vertexBuffers, offsets);
-    
+
     vkCmdDraw(commandBuffer, static_cast<uint32_t>(vertices.size()), 1, 0, 0);
-    
+
     viewportRenderer->EndRenderPass(commandBuffer);
 }
 
@@ -416,13 +539,20 @@ void TriangleRenderer::DrawFrame()
 
     if (result == VK_ERROR_OUT_OF_DATE_KHR)
     {
-        // Handle window resize - for now just return
         return;
     }
     else if (result != VK_SUCCESS && result != VK_SUBOPTIMAL_KHR)
     {
         throw std::runtime_error("Failed to acquire swap chain image!");
     }
+
+    // Check if a previous frame is using this image (i.e. there is its fence to wait on)
+    if (imagesInFlight[imageIndex] != VK_NULL_HANDLE)
+    {
+        vkWaitForFences(vulkanContext->GetDevice(), 1, &imagesInFlight[imageIndex], VK_TRUE, UINT64_MAX);
+    }
+    // Mark the image as now being in use by this frame
+    imagesInFlight[imageIndex] = inFlightFences[currentFrame];
 
     vkResetFences(vulkanContext->GetDevice(), 1, &inFlightFences[currentFrame]);
 
