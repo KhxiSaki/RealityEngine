@@ -32,5 +32,5 @@ include "Engine"
 group ""
 
 group "ThirdParty"
---include "Engine/ThirdParty"
+include "Engine/ThirdParty"
 group ""
