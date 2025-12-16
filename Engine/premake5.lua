@@ -13,7 +13,8 @@ files
 		"Source/**.cpp",
 		"%{IncludeDir.ImGui}",
 		"%{IncludeDir.ImGui}/backends",
-		"%{IncludeDir.GLM}"
+		"%{IncludeDir.GLM}",
+"%{IncludeDir.NVRHI}"
 	}
 	
 includedirs
@@ -25,7 +26,8 @@ includedirs
     "%{IncludeDir.VulkanSDK}",
 	"%{IncludeDir.GLM}",
 	"%{IncludeDir.spdlog}",
-"%{IncludeDir.spdlog}/include"
+"%{IncludeDir.spdlog}/include",
+"%{IncludeDir.NVRHI}/include/nvrhi"
 }
 
 	

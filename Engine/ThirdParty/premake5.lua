@@ -100,3 +100,35 @@ project "spdlog"
 	filter "configurations:Release"
 		runtime "Release"
 		optimize "on"
+
+project "NVRHI"
+	kind "StaticLib"
+	language "C++"
+
+	targetdir ("nvrhi/Binaries/" .. outputdir .. "/%{prj.name}")
+	objdir ("nvrhi/Intermediate/" .. outputdir .. "/%{prj.name}")
+
+	files
+	{
+	"nvrhi/include/nvrhi",
+"nvrhi/src"
+	}
+
+	filter "system:windows"
+		systemversion "latest"
+		cppdialect "C++23"
+		staticruntime "On"
+
+	filter "system:linux"
+		pic "On"
+		systemversion "latest"
+		cppdialect "C++23"
+		staticruntime "On"
+
+	filter "configurations:Debug"
+		runtime "Debug"
+		symbols "on"
+
+	filter "configurations:Release"
+		runtime "Release"
+		optimize "on"
