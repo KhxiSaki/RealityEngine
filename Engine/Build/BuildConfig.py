@@ -19,7 +19,7 @@ PREMAKE_LICENSE_URL = "https://raw.githubusercontent.com/premake/premake-core/ma
 # ---- Vulkan Configuration ----
 VULKAN_VERSION_REQUIRED = "1.4."
 VULKAN_VERSION_INSTALL = "1.4.335.0"
-VULKAN_DOWNLOAD_URL = f"https://sdk.lunarg.com/sdk/download/{VULKAN_VERSION_INSTALL}/windows/VulkanSDK-{VULKAN_VERSION_INSTALL}-Installer.exe"
+VULKAN_DOWNLOAD_URL = f"https://sdk.lunarg.com/sdk/download/{VULKAN_VERSION_INSTALL}/windows/vulkansdk-windows-X64-{VULKAN_VERSION_INSTALL}.exe"
 
 @dataclass
 class Dependency:
