@@ -60,35 +60,6 @@ bool ImGuiLayer::Initialize(GLFWwindow* window, VulkanContext* context)
     init_info.CheckVkResultFn = nullptr;
     ImGui_ImplVulkan_Init(&init_info);
 
-    // Upload Fonts
-    VkCommandBuffer command_buffer;
-    VkCommandBufferAllocateInfo alloc_info = {};
-    alloc_info.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO;
-    alloc_info.level = VK_COMMAND_BUFFER_LEVEL_PRIMARY;
-    alloc_info.commandPool = context->GetCommandPool();
-    alloc_info.commandBufferCount = 1;
-
-    vkAllocateCommandBuffers(context->GetDevice(), &alloc_info, &command_buffer);
-
-    VkCommandBufferBeginInfo begin_info = {};
-    begin_info.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
-    begin_info.flags = VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT;
-
-    vkBeginCommandBuffer(command_buffer, &begin_info);
-    //ImGui_ImplVulkan_CreateFontsTexture(command_buffer);
-    vkEndCommandBuffer(command_buffer);
-
-    VkSubmitInfo submit_info = {};
-    submit_info.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
-    submit_info.commandBufferCount = 1;
-    submit_info.pCommandBuffers = &command_buffer;
-
-    vkQueueSubmit(context->GetGraphicsQueue(), 1, &submit_info, VK_NULL_HANDLE);
-    vkQueueWaitIdle(context->GetGraphicsQueue());
-
-    vkFreeCommandBuffers(context->GetDevice(), context->GetCommandPool(), 1, &command_buffer);
-    //ImGui_ImplVulkan_DestroyFontUploadObjects();
-
     initialized = true;
     std::cout << "ImGui initialized successfully!" << std::endl;
     return true;
