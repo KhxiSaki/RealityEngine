@@ -1,0 +1,3 @@
+[submodule "Engine/ThirdParty/NVRHI"]
+	path = Engine/ThirdParty/NVRHI
+	url = https://github.com/NVIDIA-RTX/NVRHI.git
