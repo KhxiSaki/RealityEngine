@@ -53,7 +53,7 @@ def main():
     
     # Define shader directories
     shader_dir = Path("Engine/Shaders")
-    output_dir = Path("Engine/Binaries/Shaders")
+    output_dir = Path("Engine/Shaders")
     
     # Create output directory
     output_dir.mkdir(parents=True, exist_ok=True)
