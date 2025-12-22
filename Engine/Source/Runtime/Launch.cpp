@@ -2,8 +2,9 @@
 #include <GLFW/glfw3.h>
 
 #include <iostream>
-#include <stdexcept>
+#include <vector>
 #include <cstdlib>
+#include <cstring>
 
 class HelloTriangleApplication {
 public:
@@ -17,6 +18,11 @@ public:
 private:
     void CreateVulkanInstance()
     {
+
+        if (enableValidationLayers && !checkValidationLayerSupport()) {
+            throw std::runtime_error("validation layers requested, but not available!");
+        }
+
         // Application info- information about the application
         VkApplicationInfo appInfo{};
         appInfo.sType = VK_STRUCTURE_TYPE_APPLICATION_INFO;
@@ -30,15 +36,14 @@ private:
         createInfo.sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO;
         createInfo.pApplicationInfo = &appInfo;
 
-        // Find the extension count required for vulkan
-        uint32_t GLFWVulkanExtensionCount = 0;
-        const char** GLFWVulkanExtensions;
+        if (enableValidationLayers) {
+            createInfo.enabledLayerCount = static_cast<uint32_t>(validationLayers.size());
+            createInfo.ppEnabledLayerNames = validationLayers.data();
+        }
+        else {
+            createInfo.enabledLayerCount = 0;  // no vulkan extension is enabled
+        }
 
-        GLFWVulkanExtensions = glfwGetRequiredInstanceExtensions(&GLFWVulkanExtensionCount);
-
-        createInfo.enabledExtensionCount = GLFWVulkanExtensionCount;
-        createInfo.ppEnabledExtensionNames = GLFWVulkanExtensions;//determine the global validation layers to enable.
-        createInfo.enabledLayerCount = 0; // no vulkan extension is enabled from the extensions as of now
 
         VkResult result = vkCreateInstance(&createInfo, nullptr, &instance);
         if (result != VK_SUCCESS) {
@@ -62,6 +67,46 @@ private:
 
     void initVulkan() {
         CreateVulkanInstance();
+    }
+
+    std::vector<const char*> getVulkanRequiredExtensions() {
+        uint32_t glfwExtensionCount = 0;
+        const char** glfwExtensions;
+        glfwExtensions = glfwGetRequiredInstanceExtensions(&glfwExtensionCount);
+
+        std::vector<const char*> extensions(glfwExtensions, glfwExtensions + glfwExtensionCount);
+
+        if (enableValidationLayers) {
+            extensions.push_back(VK_EXT_DEBUG_UTILS_EXTENSION_NAME);
+        }
+
+        return extensions;
+    }
+
+    bool checkValidationLayerSupport() {
+        // checks if all of the requested layers are available
+        uint32_t layerCount;
+        vkEnumerateInstanceLayerProperties(&layerCount, nullptr);
+
+        std::vector<VkLayerProperties> availableLayers(layerCount);
+        vkEnumerateInstanceLayerProperties(&layerCount, availableLayers.data());
+
+        for (const char* layerName : validationLayers) {
+            bool layerFound = false;
+
+            for (const auto& layerProperties : availableLayers) {
+                if (strcmp(layerName, layerProperties.layerName) == 0) {
+                    layerFound = true;
+                    break;
+                }
+            }
+
+            if (!layerFound) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     void initwindow()
@@ -97,6 +142,15 @@ private:
 	GLFWwindow* window;
     const uint32_t WindowWidth = 800;
     const uint32_t WindowHeight = 600;
+    const std::vector<const char*> validationLayers = {
+    "VK_LAYER_KHRONOS_validation"
+    };
+
+#ifdef NDEBUG
+    const bool enableValidationLayers = false;
+#else
+    const bool enableValidationLayers = true;
+#endif
 };
 
 int main() {
