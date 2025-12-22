@@ -5,12 +5,14 @@
 #include <vector>
 #include <cstdlib>
 #include <cstring>
+#include <optional>
 
 class HelloTriangleApplication {
 public:
     void run() {
         initwindow();
         initVulkan();
+
         mainLoop();
         cleanup();
     }
@@ -45,7 +47,7 @@ private:
         }
 
 
-        VkResult result = vkCreateInstance(&createInfo, nullptr, &instance);
+        VkResult result = vkCreateInstance(&createInfo, nullptr, &ApplicationInstance);
         if (result != VK_SUCCESS) {
             throw std::runtime_error("Failed to create application info and instance!");
         }
@@ -67,6 +69,72 @@ private:
 
     void initVulkan() {
         CreateVulkanInstance();
+        pickPhysicalDevice();
+    }
+
+    void pickPhysicalDevice() {
+
+        uint32_t DeviceCount = 0;
+        vkEnumeratePhysicalDevices(ApplicationInstance, &DeviceCount, nullptr);
+
+        if (DeviceCount == 0) {
+            throw std::runtime_error("failed to find GPUs with Vulkan support!");
+        }
+
+        // Hold the list of physical devices
+        std::vector<VkPhysicalDevice> AvailablePhysicalDevices(DeviceCount);
+        vkEnumeratePhysicalDevices(ApplicationInstance, &DeviceCount, AvailablePhysicalDevices.data());
+
+        for (const auto& PhysicalDevice : AvailablePhysicalDevices) {
+            if (IsDeviceSuitable(PhysicalDevice)) {
+                ApplicationPhysicalDevice = PhysicalDevice;
+                break;
+            }
+        }
+
+        if (ApplicationPhysicalDevice == VK_NULL_HANDLE) {
+            throw std::runtime_error("failed to find a suitable GPU!");
+        }
+    }
+
+    bool IsDeviceSuitable(VkPhysicalDevice device) {
+
+        QueueFamilyIndices indices = findQueueFamilies(device);
+
+        return indices.isComplete();
+    }
+
+    struct QueueFamilyIndices {
+        std::optional<uint32_t> graphicsFamily;
+
+        bool isComplete() {
+            return graphicsFamily.has_value();
+        }
+    };
+
+    QueueFamilyIndices findQueueFamilies(VkPhysicalDevice device) {
+        QueueFamilyIndices indices;
+
+        uint32_t PhysicalDeviceQueueFamilyCount = 0;
+        vkGetPhysicalDeviceQueueFamilyProperties(device, &PhysicalDeviceQueueFamilyCount, nullptr);
+
+        std::vector<VkQueueFamilyProperties> PhysicalDeviceQueueFamiliesProperties(PhysicalDeviceQueueFamilyCount);
+        vkGetPhysicalDeviceQueueFamilyProperties(device, &PhysicalDeviceQueueFamilyCount, PhysicalDeviceQueueFamiliesProperties.data());
+
+        int i = 0;
+        for (const auto& QueueFamilyProperty : PhysicalDeviceQueueFamiliesProperties) {
+            if (QueueFamilyProperty.queueFlags & VK_QUEUE_GRAPHICS_BIT) {
+                indices.graphicsFamily = i;
+            }
+
+            if (indices.isComplete()) {
+                break;
+            }
+
+            i++;
+        }
+
+    	return indices;
     }
 
     std::vector<const char*> getVulkanRequiredExtensions() {
@@ -120,28 +188,31 @@ private:
         glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
 
         //Create window
-        window = glfwCreateWindow(WindowWidth, WindowHeight, "Vulkan", nullptr, nullptr);
+        ApplicationWindow = glfwCreateWindow(WindowWidth, WindowHeight, "Vulkan", nullptr, nullptr);
     }
     void mainLoop() {
-        while (!glfwWindowShouldClose(window)) {
+        while (!glfwWindowShouldClose(ApplicationWindow)) {
             glfwPollEvents();
         }
     }
 
     void cleanup() {
-        vkDestroyInstance(instance, nullptr);
+        vkDestroyInstance(ApplicationInstance, nullptr);
 
-        glfwDestroyWindow(window);
+        glfwDestroyWindow(ApplicationWindow);
 
         glfwTerminate();
     }
 
+
 private:
     // Vulkan Instance object - the connection between your application and the Vulkan library and creating it involves specifying some details about your application to the driver.
-    VkInstance instance; 
-	GLFWwindow* window;
+    VkInstance ApplicationInstance; 
+	GLFWwindow* ApplicationWindow;
+    VkPhysicalDevice ApplicationPhysicalDevice = VK_NULL_HANDLE;
     const uint32_t WindowWidth = 800;
     const uint32_t WindowHeight = 600;
+
     const std::vector<const char*> validationLayers = {
     "VK_LAYER_KHRONOS_validation"
     };
