@@ -20,15 +20,19 @@ def main():
     from Modules import SetupDependencies
     SetupDependencies.validate()
     
-    # Step 3: Premake
+    # Step 3: DirectX 12 Agility SDK
+    from Modules import SetupDirectX12
+    SetupDirectX12.validate()
+    
+    # Step 4: Premake
     from Modules import SetupPremake
     premake_ok = SetupPremake.validate()
     
-    # Step 4: Vulkan
+    # Step 5: Vulkan
     from Modules import SetupVulkan
     SetupVulkan.validate()
     
-    # Step 5: Git Submodules
+    # Step 6: Git Submodules
     Logger.subheader("Git Submodules")
     Logger.info("Updating submodules...")
     result = subprocess.run(
@@ -40,11 +44,17 @@ def main():
     else:
         Logger.warning("Failed to update submodules (is this a git repo?)")
     
-    # Step 6: Compile Shaders
+    # Step 7: Compile Shaders
     from Modules import SetupShaders
     SetupShaders.validate()
     
     Logger.header("Setup Complete!")
+    Logger.info("")
+    Logger.info("Next steps:")
+    Logger.info("  1. Run GenerateVisualStudioFiles.bat")
+    Logger.info("  2. Open RealityEngine.sln in Visual Studio")
+    Logger.info("  3. Build and run the project")
+    Logger.info("")
     return 0
 
 if __name__ == "__main__":
